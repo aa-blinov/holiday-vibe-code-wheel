@@ -1,0 +1,175 @@
+- generic [ref=f1e3]:
+  - banner [ref=f1e4]:
+    - generic [ref=f1e5]:
+      - heading "Holiday Vibe-Code Wheel" [level=1] [ref=f1e6]
+      - paragraph [ref=f1e7]: Daily prompts for small web tools and services.
+    - generic [ref=f1e9] [cursor=pointer]:
+      - checkbox "Advent lock (1/day)"
+      - generic [ref=f1e11]: Advent lock (1/day)
+  - generic [ref=f1e12]:
+    - tablist "Service decks" [ref=f1e13]:
+      - tab "All Ideas" [selected] [ref=f1e14] [cursor=pointer]
+      - tab "Micro-SaaS" [ref=f1e15] [cursor=pointer]
+      - tab "Dev Tools & Engines" [ref=f1e16] [cursor=pointer]
+      - tab "Creative Apps" [ref=f1e17] [cursor=pointer]
+      - tab "Holiday & Play" [ref=f1e18] [cursor=pointer]
+    - button "Shuffle wheel" [ref=f1e19] [cursor=pointer]
+  - main [ref=f1e20]:
+    - button "Spin wheel" [ref=f1e26] [cursor=pointer]
+    - generic [ref=f1e27]:
+      - generic [ref=f1e28]:
+        - generic [ref=f1e29]:
+          - generic [ref=f1e30]:
+            - heading "Advent streak" [level=2] [ref=f1e31]
+            - paragraph [ref=f1e32]: One official spin per day across 25 winter builds.
+          - generic [ref=f1e33]:
+            - generic [ref=f1e34]: 0/25 unlocked
+            - generic [ref=f1e35]: 0 built
+        - generic [ref=f1e36]:
+          - 'generic "Day 1: Locked" [ref=f1e37]': "1"
+          - 'generic "Day 2: Locked" [ref=f1e39]': "2"
+          - 'generic "Day 3: Locked" [ref=f1e41]': "3"
+          - 'generic "Day 4: Locked" [ref=f1e43]': "4"
+          - 'generic "Day 5: Locked" [ref=f1e45]': "5"
+          - 'generic "Day 6: Locked" [ref=f1e47]': "6"
+          - 'generic "Day 7: Locked" [ref=f1e49]': "7"
+          - 'generic "Day 8: Locked" [ref=f1e51]': "8"
+          - 'generic "Day 9: Locked" [ref=f1e53]': "9"
+          - 'generic "Day 10: Locked" [ref=f1e55]': "10"
+          - 'generic "Day 11: Locked" [ref=f1e57]': "11"
+          - 'generic "Day 12: Locked" [ref=f1e59]': "12"
+          - 'generic "Day 13: Locked" [ref=f1e61]': "13"
+          - 'generic "Day 14: Locked" [ref=f1e63]': "14"
+          - 'generic "Day 15: Locked" [ref=f1e65]': "15"
+          - 'generic "Day 16: Locked" [ref=f1e67]': "16"
+          - 'generic "Day 17: Locked" [ref=f1e69]': "17"
+          - 'generic "Day 18: Locked" [ref=f1e71]': "18"
+          - 'generic "Day 19: Locked" [ref=f1e73]': "19"
+          - 'generic "Day 20: Locked" [ref=f1e75]': "20"
+          - 'generic "Day 21: Locked" [ref=f1e77]': "21"
+          - 'generic "Day 22: Locked" [ref=f1e79]': "22"
+          - 'generic "Day 23: Locked" [ref=f1e81]': "23"
+          - 'generic "Day 24: Locked" [ref=f1e83]': "24"
+          - 'generic "Day 25: Locked" [ref=f1e85]': "25"
+      - generic [ref=f1e87]:
+        - generic [ref=f1e89]:
+          - heading "Spin log" [level=2] [ref=f1e90]
+          - paragraph [ref=f1e91]: Daily rolls and practice spins saved locally.
+        - generic [ref=f1e92]: No spins recorded yet. Spin the wheel to draw your first service prompt.
+  - generic [ref=f1e93]:
+    - generic [ref=f1e94]:
+      - generic [ref=f1e95]:
+        - heading "Idea pool (3 000 combinations)" [level=2] [ref=f1e96]
+        - paragraph [ref=f1e97]: Every spin deals 12 fresh prompts from this pool. Search or deal a sample below.
+      - generic [ref=f1e98]:
+        - searchbox "Search ideas" [ref=f1e99]
+        - button "Deal 18 more" [ref=f1e100] [cursor=pointer]
+    - generic [ref=f1e101]:
+      - button "Dev Tool 25 min In-Memory KV Store (60fps Physics) Toy key-value database with TTL expiration, prefix scan, and an interactive console, adding subtle gravity, bounce, or spring motion." [ref=f1e102] [cursor=pointer]:
+        - generic [ref=f1e103]:
+          - generic [ref=f1e104]: Dev Tool
+          - generic [ref=f1e105]: 25 min
+        - heading "In-Memory KV Store (60fps Physics)" [level=3] [ref=f1e106]
+        - paragraph [ref=f1e107]: Toy key-value database with TTL expiration, prefix scan, and an interactive console, adding subtle gravity, bounce, or spring motion.
+      - button "Holiday & Play 30 min Multi-City Countdown (Split-Pane Live) Live Jan 1 countdown across Tokyo, London, New York, and local time with tabular digits, using a side-by-side input and live preview layout." [ref=f1e108] [cursor=pointer]:
+        - generic [ref=f1e109]:
+          - generic [ref=f1e110]: Holiday & Play
+          - generic [ref=f1e111]: 30 min
+        - heading "Multi-City Countdown (Split-Pane Live)" [level=3] [ref=f1e112]
+        - paragraph [ref=f1e113]: Live Jan 1 countdown across Tokyo, London, New York, and local time with tabular digits, using a side-by-side input and live preview layout.
+      - button "Creative App 15 min Retro Desktop Notes (60fps Physics) Classic 90s windowed sticky-notes desktop with draggable cards and pixel borders, adding subtle gravity, bounce, or spring motion." [ref=f1e114] [cursor=pointer]:
+        - generic [ref=f1e115]:
+          - generic [ref=f1e116]: Creative App
+          - generic [ref=f1e117]: 15 min
+        - heading "Retro Desktop Notes (60fps Physics)" [level=3] [ref=f1e118]
+        - paragraph [ref=f1e119]: Classic 90s windowed sticky-notes desktop with draggable cards and pixel borders, adding subtle gravity, bounce, or spring motion.
+      - button "Holiday & Play 15 min Gift Box Wrap Estimator (Zero Dependencies) Enter box dimensions to calculate exact wrapping paper sheet size and ribbon length, written in plain vanilla JS or React without extra packages." [ref=f1e120] [cursor=pointer]:
+        - generic [ref=f1e121]:
+          - generic [ref=f1e122]: Holiday & Play
+          - generic [ref=f1e123]: 15 min
+        - heading "Gift Box Wrap Estimator (Zero Dependencies)" [level=3] [ref=f1e124]
+        - paragraph [ref=f1e125]: Enter box dimensions to calculate exact wrapping paper sheet size and ribbon length, written in plain vanilla JS or React without extra packages.
+      - button "Holiday & Play 20 min 3-Line Year Highlights (URL-Hash Shared) Minimalist card deck for recording one good memory per month of the year, storing the entire state in the URL hash." [ref=f1e126] [cursor=pointer]:
+        - generic [ref=f1e127]:
+          - generic [ref=f1e128]: Holiday & Play
+          - generic [ref=f1e129]: 20 min
+        - heading "3-Line Year Highlights (URL-Hash Shared)" [level=3] [ref=f1e130]
+        - paragraph [ref=f1e131]: Minimalist card deck for recording one good memory per month of the year, storing the entire state in the URL hash.
+      - button "Creative App 20 min JSON Quiz Runner (Live JSON Config) Load a simple JSON question bank and run a timed quiz with score breakdown, driven by an editable JSON pane on the side." [ref=f1e132] [cursor=pointer]:
+        - generic [ref=f1e133]:
+          - generic [ref=f1e134]: Creative App
+          - generic [ref=f1e135]: 20 min
+        - heading "JSON Quiz Runner (Live JSON Config)" [level=3] [ref=f1e136]
+        - paragraph [ref=f1e137]: Load a simple JSON question bank and run a timed quiz with score breakdown, driven by an editable JSON pane on the side.
+      - button "Holiday & Play 25 min Holiday Queue DJ (15-Min Sprint Mode) Simple party song voting queue where guests upvote the next track, paired with a built-in corner focus timer." [ref=f1e138] [cursor=pointer]:
+        - generic [ref=f1e139]:
+          - generic [ref=f1e140]: Holiday & Play
+          - generic [ref=f1e141]: 25 min
+        - heading "Holiday Queue DJ (15-Min Sprint Mode)" [level=3] [ref=f1e142]
+        - paragraph [ref=f1e143]: Simple party song voting queue where guests upvote the next track, paired with a built-in corner focus timer.
+      - button "Micro-SaaS 25 min Release Notes Feed (Single-HTML File) Product changelog grouped by date with Added, Fixed, and Improved filters, packed into one self-contained HTML file." [ref=f1e144] [cursor=pointer]:
+        - generic [ref=f1e145]:
+          - generic [ref=f1e146]: Micro-SaaS
+          - generic [ref=f1e147]: 25 min
+        - heading "Release Notes Feed (Single-HTML File)" [level=3] [ref=f1e148]
+        - paragraph [ref=f1e149]: Product changelog grouped by date with Added, Fixed, and Improved filters, packed into one self-contained HTML file.
+      - button "Holiday & Play 20 min Hot Cocoa Idle Game (2x PNG Export) 2-minute clicker where brewing cocoa unlocks Cinnamon, Cream, and Espresso upgrades, rendering the output to Canvas for crisp 2x PNG download." [ref=f1e150] [cursor=pointer]:
+        - generic [ref=f1e151]:
+          - generic [ref=f1e152]: Holiday & Play
+          - generic [ref=f1e153]: 20 min
+        - heading "Hot Cocoa Idle Game (2x PNG Export)" [level=3] [ref=f1e154]
+        - paragraph [ref=f1e155]: 2-minute clicker where brewing cocoa unlocks Cinnamon, Cream, and Espresso upgrades, rendering the output to Canvas for crisp 2x PNG download.
+      - button "Holiday & Play 25 min Holiday Baking Scaler (One-Screen HUD) Scale cookie or mulled-wine ingredients from 2 to 24 servings with clean fractions, fitting the entire experience above the fold." [ref=f1e156] [cursor=pointer]:
+        - generic [ref=f1e157]:
+          - generic [ref=f1e158]: Holiday & Play
+          - generic [ref=f1e159]: 25 min
+        - heading "Holiday Baking Scaler (One-Screen HUD)" [level=3] [ref=f1e160]
+        - paragraph [ref=f1e161]: Scale cookie or mulled-wine ingredients from 2 to 24 servings with clean fractions, fitting the entire experience above the fold.
+      - button "Dev Tool 20 min Commit & Branch Helper (Print-to-PDF Ready) Interactive Conventional Commits builder and branch namer with ticket ID presets, with a dedicated @media print stylesheet." [ref=f1e162] [cursor=pointer]:
+        - generic [ref=f1e163]:
+          - generic [ref=f1e164]: Dev Tool
+          - generic [ref=f1e165]: 20 min
+        - heading "Commit & Branch Helper (Print-to-PDF Ready)" [level=3] [ref=f1e166]
+        - paragraph [ref=f1e167]: Interactive Conventional Commits builder and branch namer with ticket ID presets, with a dedicated @media print stylesheet.
+      - button "Micro-SaaS 20 min Freelance Retainer Tracker (Snapshot Compare) Monthly hours log with burn-rate bar and remaining retainer balance alerts, letting users save and switch between named versions." [ref=f1e168] [cursor=pointer]:
+        - generic [ref=f1e169]:
+          - generic [ref=f1e170]: Micro-SaaS
+          - generic [ref=f1e171]: 20 min
+        - heading "Freelance Retainer Tracker (Snapshot Compare)" [level=3] [ref=f1e172]
+        - paragraph [ref=f1e173]: Monthly hours log with burn-rate bar and remaining retainer balance alerts, letting users save and switch between named versions.
+      - button "Creative App 30 min Interactive Cipher Toy (CSV & Markdown Out) Encode and decode secret notes using Caesar, Vigenere, or custom substitution keys, with one-click CSV and Markdown export." [ref=f1e174] [cursor=pointer]:
+        - generic [ref=f1e175]:
+          - generic [ref=f1e176]: Creative App
+          - generic [ref=f1e177]: 30 min
+        - heading "Interactive Cipher Toy (CSV & Markdown Out)" [level=3] [ref=f1e178]
+        - paragraph [ref=f1e179]: Encode and decode secret notes using Caesar, Vigenere, or custom substitution keys, with one-click CSV and Markdown export.
+      - button "Micro-SaaS 25 min JSON Bio Page Editor (Drag-and-Drop) Minimal creator link hub driven by a live JSON config with instant layout switching, supporting drag-and-drop file drop or item sorting." [ref=f1e180] [cursor=pointer]:
+        - generic [ref=f1e181]:
+          - generic [ref=f1e182]: Micro-SaaS
+          - generic [ref=f1e183]: 25 min
+        - heading "JSON Bio Page Editor (Drag-and-Drop)" [level=3] [ref=f1e184]
+        - paragraph [ref=f1e185]: Minimal creator link hub driven by a live JSON config with instant layout switching, supporting drag-and-drop file drop or item sorting.
+      - button "Micro-SaaS 15 min Tab Hoarder Rehab (Snapshot Compare) Paste 30 messy browser URLs, group them by domain/topic, and export a clean reading list, letting users save and switch between named versions." [ref=f1e186] [cursor=pointer]:
+        - generic [ref=f1e187]:
+          - generic [ref=f1e188]: Micro-SaaS
+          - generic [ref=f1e189]: 15 min
+        - heading "Tab Hoarder Rehab (Snapshot Compare)" [level=3] [ref=f1e190]
+        - paragraph [ref=f1e191]: Paste 30 messy browser URLs, group them by domain/topic, and export a clean reading list, letting users save and switch between named versions.
+      - button "Holiday & Play 15 min Printable Gift Tags (WebAudio Feedback) Generate a sheet of custom To/From holiday gift tags ready to print and cut, paired with subtle synthesized WebAudio clicks and chimes." [ref=f1e192] [cursor=pointer]:
+        - generic [ref=f1e193]:
+          - generic [ref=f1e194]: Holiday & Play
+          - generic [ref=f1e195]: 15 min
+        - heading "Printable Gift Tags (WebAudio Feedback)" [level=3] [ref=f1e196]
+        - paragraph [ref=f1e197]: Generate a sheet of custom To/From holiday gift tags ready to print and cut, paired with subtle synthesized WebAudio clicks and chimes.
+      - button "Micro-SaaS 20 min Viral Referral Waitlist (Win95 Desktop) Launch signup form that assigns queue positions and generates referral links to jump spots, dressed up in classic 90s grey beveled windows." [ref=f1e198] [cursor=pointer]:
+        - generic [ref=f1e199]:
+          - generic [ref=f1e200]: Micro-SaaS
+          - generic [ref=f1e201]: 20 min
+        - heading "Viral Referral Waitlist (Win95 Desktop)" [level=3] [ref=f1e202]
+        - paragraph [ref=f1e203]: Launch signup form that assigns queue positions and generates referral links to jump spots, dressed up in classic 90s grey beveled windows.
+      - button "Holiday & Play 15 min Year-in-Tech Trivia (Minimal Editorial) Fast-paced 10-question party trivia runner with team scorekeeper, using newspaper-like hairlines and tabular numbers." [ref=f1e204] [cursor=pointer]:
+        - generic [ref=f1e205]:
+          - generic [ref=f1e206]: Holiday & Play
+          - generic [ref=f1e207]: 15 min
+        - heading "Year-in-Tech Trivia (Minimal Editorial)" [level=3] [ref=f1e208]
+        - paragraph [ref=f1e209]: Fast-paced 10-question party trivia runner with team scorekeeper, using newspaper-like hairlines and tabular numbers.
