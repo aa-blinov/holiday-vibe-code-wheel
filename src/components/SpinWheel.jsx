@@ -7,18 +7,47 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
   const canvasRef = useRef(null);
   const rotationRef = useRef(0);
   const activeItemsRef = useRef(items);
+  const sizeRef = useRef({ displaySize: 0, dpr: 1 });
   const [isSpinning, setIsSpinning] = useState(false);
+
+  const syncCanvasSize = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return 0;
+
+    const dpr = window.devicePixelRatio || 1;
+    const parentWidth = canvas.parentElement?.clientWidth || 420;
+    const displaySize = Math.max(
+      240,
+      Math.min(parentWidth, window.innerWidth - 72, 440)
+    );
+
+    if (
+      sizeRef.current.displaySize !== displaySize ||
+      sizeRef.current.dpr !== dpr
+    ) {
+      canvas.style.width = `${displaySize}px`;
+      canvas.style.height = `${displaySize}px`;
+      canvas.width = displaySize * dpr;
+      canvas.height = displaySize * dpr;
+      sizeRef.current = { displaySize, dpr };
+    }
+
+    return displaySize;
+  };
 
   useEffect(() => {
     if (!isSpinning) {
       activeItemsRef.current = items;
+      syncCanvasSize();
       drawWheel(rotationRef.current, items);
     }
   }, [items, isSpinning]);
 
   useEffect(() => {
-    const handleResize = () =>
+    const handleResize = () => {
+      syncCanvasSize();
       drawWheel(rotationRef.current, activeItemsRef.current);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -28,16 +57,8 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
     if (!canvas || !currentItems.length) return;
     const ctx = canvas.getContext('2d');
 
-    const dpr = window.devicePixelRatio || 1;
-    const parentWidth = canvas.parentElement?.clientWidth || 420;
-    const displaySize = Math.max(
-      240,
-      Math.min(parentWidth, window.innerWidth - 72, 440)
-    );
-    canvas.style.width = `${displaySize}px`;
-    canvas.style.height = `${displaySize}px`;
-    canvas.width = displaySize * dpr;
-    canvas.height = displaySize * dpr;
+    const displaySize = sizeRef.current.displaySize || syncCanvasSize();
+    const dpr = sizeRef.current.dpr;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
