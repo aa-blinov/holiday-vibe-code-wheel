@@ -9,9 +9,10 @@ export function ChallengeModal({
   onSpinAgain,
   onClose,
   onToggleBuilt,
+  onUpdateBuildUrl,
 }) {
   const [copiedPrompt, setCopiedPrompt] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedShare, setCopiedShare] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef(null);
 
@@ -28,10 +29,15 @@ export function ChallengeModal({
     ].join('\n');
   }, [challenge]);
 
+  const shareUrl = useMemo(() => {
+    if (!challenge || typeof window === 'undefined') return '';
+    return `${window.location.origin}${window.location.pathname}?idea=${encodeURIComponent(challenge.id)}`;
+  }, [challenge]);
+
   useEffect(() => {
     setIsClosing(false);
     setCopiedPrompt(false);
-    setCopiedLink(false);
+    setCopiedShare(false);
     return () => {
       if (closeTimerRef.current) {
         clearTimeout(closeTimerRef.current);
@@ -78,16 +84,32 @@ export function ChallengeModal({
     }
   };
 
-  const handleCopyLink = async () => {
-    const shareUrl = `${window.location.origin}${window.location.pathname}?idea=${encodeURIComponent(challenge.id)}`;
+  const handleShare = async () => {
+    const shareText = `Today's build on Holiday Vibe-Code Wheel: ${challenge.title} (${challenge.timeEstimate})\n${shareUrl}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: challenge.title,
+          text: `Today's build on Holiday Vibe-Code Wheel: ${challenge.title}`,
+          url: shareUrl,
+        });
+        return;
+      } catch {
+        // Fallback to clipboard if user cancels or share fails
+      }
+    }
     try {
-      await navigator.clipboard.writeText(shareUrl);
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 1800);
+      await navigator.clipboard.writeText(shareText);
+      setCopiedShare(true);
+      setTimeout(() => setCopiedShare(false), 1800);
     } catch {
       // Clipboard may be unavailable outside HTTPS/localhost
     }
   };
+
+  const encodedPrompt = encodeURIComponent(fullPromptText);
+  const chatGptUrl = `https://chatgpt.com/?q=${encodedPrompt}`;
+  const claudeUrl = `https://claude.ai/new?q=${encodedPrompt}`;
 
   return (
     <div
@@ -118,7 +140,27 @@ export function ChallengeModal({
         </div>
 
         <div className="prompt-preview-wrap">
-          <span className="constraint-label">Full prompt to copy</span>
+          <div className="prompt-preview-head">
+            <span className="constraint-label">Full prompt to copy</span>
+            <div className="ai-launch-links">
+              <a
+                href={chatGptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ai-link"
+              >
+                Open in ChatGPT ↗
+              </a>
+              <a
+                href={claudeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ai-link"
+              >
+                Open in Claude ↗
+              </a>
+            </div>
+          </div>
           <pre
             className="prompt-preview-box"
             tabIndex={0}
@@ -127,6 +169,22 @@ export function ChallengeModal({
             {fullPromptText}
           </pre>
         </div>
+
+        {entry && onUpdateBuildUrl && (
+          <div className="build-url-wrap">
+            <label htmlFor="build-url-input" className="constraint-label">
+              Your build link (optional)
+            </label>
+            <input
+              id="build-url-input"
+              type="url"
+              className="build-url-input"
+              value={entry.buildUrl || ''}
+              onChange={(e) => onUpdateBuildUrl(entry.id, e.target.value)}
+              placeholder="https://github.com/... or live demo URL"
+            />
+          </div>
+        )}
 
         <div className="modal-actions">
           <button
@@ -140,9 +198,9 @@ export function ChallengeModal({
           <button
             type="button"
             className="btn-secondary"
-            onClick={handleCopyLink}
+            onClick={handleShare}
           >
-            {copiedLink ? 'Link copied' : 'Copy link'}
+            {copiedShare ? 'Share text copied' : 'Share'}
           </button>
 
           {entry && (

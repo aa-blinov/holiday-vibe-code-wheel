@@ -1,11 +1,34 @@
+import { useState } from 'react';
+
 export function AdventStrip({ history, onSelectEntry }) {
+  const [copiedSummary, setCopiedSummary] = useState(false);
+
   const officialSpins = history
     .filter((item) => !item.isPractice)
     .slice()
     .reverse();
   const totalSlots = 25;
   const unlockedCount = Math.min(officialSpins.length, totalSlots);
-  const builtCount = officialSpins.filter((item) => item.built).length;
+  const builtSpins = officialSpins.filter((item) => item.built);
+  const builtCount = builtSpins.length;
+
+  const handleCopySummary = async () => {
+    const lines = [
+      `Holiday Vibe-Code Wheel (${builtCount}/25 built)`,
+      '',
+      ...builtSpins.map((item, idx) => {
+        const linkPart = item.buildUrl ? ` — ${item.buildUrl}` : '';
+        return `${idx + 1}. [${item.date}] ${item.title}${linkPart}`;
+      }),
+    ];
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'));
+      setCopiedSummary(true);
+      setTimeout(() => setCopiedSummary(false), 1800);
+    } catch {
+      // Clipboard may be unavailable outside HTTPS/localhost
+    }
+  };
 
   return (
     <section className="panel">
@@ -19,6 +42,15 @@ export function AdventStrip({ history, onSelectEntry }) {
         <div className="stats-group">
           <span className="stat-chip">{unlockedCount}/25 unlocked</span>
           <span className="stat-chip is-accent">{builtCount} built</span>
+          {builtCount > 0 && (
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={handleCopySummary}
+            >
+              {copiedSummary ? 'Copied' : 'Export log'}
+            </button>
+          )}
         </div>
       </div>
 

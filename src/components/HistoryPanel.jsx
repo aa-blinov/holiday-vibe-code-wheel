@@ -40,13 +40,25 @@ export function HistoryPanel({ history, onSelectEntry, onToggleBuilt, onClearHis
                 <span className="history-title">{entry.title}</span>
               </button>
 
-              <button
-                type="button"
-                className={`built-toggle ${entry.built ? 'is-built' : ''}`}
-                onClick={() => onToggleBuilt(entry.id)}
-              >
-                {entry.built ? 'Built' : 'Mark built'}
-              </button>
+              <div className="history-actions">
+                {entry.buildUrl && (
+                  <a
+                    href={entry.buildUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-ghost history-link"
+                  >
+                    Live ↗
+                  </a>
+                )}
+                <button
+                  type="button"
+                  className={`built-toggle ${entry.built ? 'is-built' : ''}`}
+                  onClick={() => onToggleBuilt(entry.id)}
+                >
+                  {entry.built ? 'Built' : 'Mark built'}
+                </button>
+              </div>
             </li>
           ))}
         </ul>

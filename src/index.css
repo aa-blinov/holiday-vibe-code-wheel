@@ -10,7 +10,8 @@
   --accent-hover: #812122;
   --pine: #1b4332;
   --pine-soft: rgba(27, 67, 50, 0.1);
-  --font-display: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --card-shadow: 0 1px 2px rgba(20, 20, 19, 0.04), 0 8px 24px rgba(20, 20, 19, 0.04);
+  --font-display: 'Bricolage Grotesque', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
   --r-sm: 6px;
@@ -31,6 +32,7 @@
   --pine: #2d7a58;
   --pine-soft: rgba(45, 122, 88, 0.24);
   --gold: #d9a441;
+  --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 14px 32px rgba(0, 0, 0, 0.28);
 }
 
 *,
@@ -363,6 +365,7 @@ a:focus-visible,
   border-radius: var(--r-lg);
   background: var(--bg-surface);
   border: 1px solid var(--hairline);
+  box-shadow: var(--card-shadow);
 }
 
 .wheel-wrapper {
@@ -496,6 +499,7 @@ a:focus-visible,
   border-radius: var(--r-lg);
   background: var(--bg-surface);
   border: 1px solid var(--hairline);
+  box-shadow: var(--card-shadow);
 }
 
 .panel-header {
@@ -919,7 +923,68 @@ a:focus-visible,
 }
 
 .prompt-preview-wrap {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
+}
+
+.prompt-preview-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.prompt-preview-head .constraint-label {
+  margin-bottom: 0;
+}
+
+.ai-launch-links {
+  display: flex;
+  gap: 12px;
+}
+
+.ai-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.ai-link:hover {
+  color: var(--gold, var(--ink));
+  text-decoration: underline;
+}
+
+.build-url-wrap {
+  margin-bottom: 18px;
+}
+
+.build-url-input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline-strong);
+  background: var(--bg-ground);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.build-url-input:focus {
+  outline: 2px solid var(--gold, var(--ink));
+  outline-offset: 1px;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.history-link {
+  text-decoration: none;
 }
 
 .prompt-preview-box {

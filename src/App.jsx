@@ -118,6 +118,15 @@ export default function App() {
     }));
   };
 
+  const handleUpdateBuildUrl = (entryId, buildUrl) => {
+    setState((prev) => ({
+      ...prev,
+      history: prev.history.map((item) =>
+        item.id === entryId ? { ...item, buildUrl } : item
+      ),
+    }));
+  };
+
   const handleTogglePractice = () => {
     setState((prev) => ({
       ...prev,
@@ -307,6 +316,7 @@ export default function App() {
         }}
         onClose={handleCloseModal}
         onToggleBuilt={handleToggleBuilt}
+        onUpdateBuildUrl={handleUpdateBuildUrl}
       />
     </div>
   );
