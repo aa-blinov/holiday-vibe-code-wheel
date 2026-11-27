@@ -20,6 +20,7 @@ export function SpinWheel({
   onSpinComplete,
 }) {
   const canvasRef = useRef(null);
+  const pointerRef = useRef(null);
   const rotationRef = useRef(0);
   const activeItemsRef = useRef(items);
   const themeRef = useRef(theme);
@@ -86,28 +87,39 @@ export function SpinWheel({
 
     const cx = displaySize / 2;
     const cy = displaySize / 2;
-    const outerRadius = displaySize / 2 - 10;
-    const wheelRadius = outerRadius - 8;
+    const outerRadius = displaySize / 2 - 8;
+    const wheelRadius = outerRadius - 14;
     const n = currentItems.length;
     const sliceAngle = TWO_PI / n;
-
     const isHoliday = themeRef.current === 'holiday';
-    const rimFill = isHoliday ? '#1c302b' : '#fffdf8';
-    const rimStroke = isHoliday ? '#d9a441' : '#141413';
-    const sliceStroke = isHoliday ? '#0e1b18' : '#fffdf8';
-    const hubFill = isHoliday ? '#142420' : '#fffdf8';
-    const hubStroke = isHoliday ? '#d9a441' : '#141413';
 
     ctx.clearRect(0, 0, displaySize, displaySize);
 
+    // Outer metallic brass / ink bezel
+    const bezelGrad = ctx.createLinearGradient(0, 0, displaySize, displaySize);
+    if (isHoliday) {
+      bezelGrad.addColorStop(0, '#ead08c');
+      bezelGrad.addColorStop(0.35, '#b88b3d');
+      bezelGrad.addColorStop(0.7, '#6d4e19');
+      bezelGrad.addColorStop(1, '#d8b464');
+    } else {
+      bezelGrad.addColorStop(0, '#2a2927');
+      bezelGrad.addColorStop(0.5, '#141413');
+      bezelGrad.addColorStop(1, '#33312e');
+    }
+
     ctx.beginPath();
     ctx.arc(cx, cy, outerRadius, 0, TWO_PI);
-    ctx.fillStyle = rimFill;
+    ctx.fillStyle = bezelGrad;
     ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = rimStroke;
-    ctx.stroke();
 
+    // Recessed inner channel
+    ctx.beginPath();
+    ctx.arc(cx, cy, wheelRadius + 3, 0, TWO_PI);
+    ctx.fillStyle = isHoliday ? '#0a1411' : '#0d0d0c';
+    ctx.fill();
+
+    // Slices
     for (let i = 0; i < n; i++) {
       const startAngle = rotation + i * sliceAngle;
       const endAngle = startAngle + sliceAngle;
@@ -120,8 +132,10 @@ export function SpinWheel({
       ctx.fillStyle = item.color;
       ctx.fill();
 
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = sliceStroke;
+      ctx.lineWidth = 1.25;
+      ctx.strokeStyle = isHoliday
+        ? 'rgba(242, 237, 226, 0.22)'
+        : 'rgba(255, 253, 248, 0.55)';
       ctx.stroke();
 
       ctx.save();
@@ -130,23 +144,83 @@ export function SpinWheel({
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#fffdf8';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 3;
       ctx.font = `600 ${displaySize < 360 ? 11.5 : 13}px "IBM Plex Sans", sans-serif`;
       ctx.fillText(item.shortLabel, wheelRadius - 16, 0);
       ctx.restore();
     }
 
+    // Subtle directional lighting sheen across the wheel face
+    const sheen = ctx.createRadialGradient(
+      cx - wheelRadius * 0.28,
+      cy - wheelRadius * 0.28,
+      wheelRadius * 0.05,
+      cx,
+      cy,
+      wheelRadius
+    );
+    sheen.addColorStop(0, 'rgba(255, 255, 255, 0.11)');
+    sheen.addColorStop(0.55, 'rgba(255, 255, 255, 0)');
+    sheen.addColorStop(1, 'rgba(0, 0, 0, 0.22)');
+
     ctx.beginPath();
-    ctx.arc(cx, cy, 22, 0, TWO_PI);
-    ctx.fillStyle = hubFill;
+    ctx.arc(cx, cy, wheelRadius, 0, TWO_PI);
+    ctx.fillStyle = sheen;
+    ctx.fill();
+
+    // Brass / steel peg pins on the bezel at each slice boundary
+    const pegRadius = outerRadius - 7;
+    for (let i = 0; i < n; i++) {
+      const a = rotation + i * sliceAngle;
+      const px = cx + Math.cos(a) * pegRadius;
+      const py = cy + Math.sin(a) * pegRadius;
+
+      ctx.beginPath();
+      ctx.arc(px, py, 2.6, 0, TWO_PI);
+      ctx.fillStyle = isHoliday ? '#f6e4ad' : '#e6e2d8';
+      ctx.fill();
+      ctx.lineWidth = 0.75;
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+      ctx.stroke();
+    }
+
+    // Machined center hub
+    const hubGrad = ctx.createLinearGradient(cx - 24, cy - 24, cx + 24, cy + 24);
+    if (isHoliday) {
+      hubGrad.addColorStop(0, '#ead08c');
+      hubGrad.addColorStop(0.5, '#b88b3d');
+      hubGrad.addColorStop(1, '#6d4e19');
+    } else {
+      hubGrad.addColorStop(0, '#fffdf8');
+      hubGrad.addColorStop(1, '#d8d3c8');
+    }
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 24, 0, TWO_PI);
+    ctx.fillStyle = hubGrad;
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = hubStroke;
+    ctx.strokeStyle = isHoliday ? '#0a1411' : '#141413';
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(cx, cy, 6, 0, TWO_PI);
-    ctx.fillStyle = hubStroke;
+    ctx.arc(cx, cy, 15, 0, TWO_PI);
+    ctx.fillStyle = isHoliday ? '#142420' : '#141413';
     ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 4.5, 0, TWO_PI);
+    ctx.fillStyle = isHoliday ? '#ead08c' : '#fffdf8';
+    ctx.fill();
+  };
+
+  const flickPointer = () => {
+    const el = pointerRef.current;
+    if (!el) return;
+    el.classList.remove('is-tick');
+    void el.offsetWidth;
+    el.classList.add('is-tick');
   };
 
   const handleSpin = () => {
@@ -182,6 +256,7 @@ export function SpinWheel({
       );
       if (currentSliceIdx !== lastSliceIdx) {
         lastSliceIdx = currentSliceIdx;
+        flickPointer();
         if (soundRef.current) {
           playTick();
         }
@@ -230,7 +305,11 @@ export function SpinWheel({
   return (
     <div className="wheel-wrapper">
       <div className="wheel-stage">
-        <div className="wheel-pointer" aria-hidden="true" />
+        <div
+          ref={pointerRef}
+          className="wheel-pointer"
+          aria-hidden="true"
+        />
         <canvas ref={canvasRef} className="wheel-canvas" />
       </div>
 
