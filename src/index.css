@@ -143,18 +143,12 @@ a:focus-visible,
   gap: 14px;
 }
 
-.countdown-chip {
-  font-family: var(--font-mono);
+.countdown-inline {
   font-variant-numeric: tabular-nums;
-  font-size: 13px;
-  font-weight: 500;
   color: var(--ink);
-  padding: 4px 8px;
-  background: var(--bg-subtle);
-  border: 2px solid var(--border-hard);
 }
 
-:root[data-theme='holiday'] .countdown-chip {
+:root[data-theme='holiday'] .countdown-inline {
   color: var(--gold);
 }
 

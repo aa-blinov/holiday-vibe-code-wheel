@@ -200,13 +200,11 @@ export default function App() {
         <div className="topbar-left">
           <h1 className="brand-title">Holiday Vibe-Code Wheel</h1>
           <p className="brand-sub">
-            Daily prompts for small web tools and services.
+            Daily prompts for small web tools and services · <span className="countdown-inline">{countdown}</span>
           </p>
         </div>
 
         <div className="topbar-controls">
-          <span className="countdown-chip">{countdown}</span>
-
           <button
             type="button"
             className="topbar-text-btn"
@@ -231,22 +229,9 @@ export default function App() {
             />
             <span className="toggle-track" />
             <span className="toggle-label">
-              {state.practiceMode ? 'Practice mode (unlimited)' : 'Advent lock (1/day)'}
+              {state.practiceMode ? 'Practice mode' : 'Daily lock'}
             </span>
           </label>
-
-          {todayEntry && (
-            <button
-              type="button"
-              className="today-pill"
-              onClick={() => {
-                setPreviewChallenge(null);
-                setActiveEntryId(todayEntry.id);
-              }}
-            >
-              Today: <strong>{todayEntry.title}</strong>
-            </button>
-          )}
         </div>
       </header>
 
