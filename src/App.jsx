@@ -38,7 +38,7 @@ function getNewYearCountdown() {
 
   // Jan 1 – Jan 10: New Year week
   if (month === 0 && day <= 10) {
-    return `Happy ${year} · Day ${day}`;
+    return `Happy ${year} / Day ${day}`;
   }
 
   // Rest of the year: evergreen daily build counter
@@ -200,7 +200,8 @@ export default function App() {
         <div className="topbar-left">
           <h1 className="brand-title">Holiday Vibe-Code Wheel</h1>
           <p className="brand-sub">
-            Daily prompts for small web tools and services · <span className="countdown-inline">{countdown}</span>
+            Daily prompts for small web tools and services.{' '}
+            <span className="countdown-inline">{countdown}</span>
           </p>
         </div>
 
