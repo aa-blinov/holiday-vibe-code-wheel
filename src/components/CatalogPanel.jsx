@@ -59,7 +59,6 @@ export function CatalogPanel({ activeDeck, onSelectChallenge }) {
                 <span className={`catalog-cat deck-badge-${item.deck}`}>
                   {item.category}
                 </span>
-                <span className="catalog-time">{item.timeEstimate}</span>
               </div>
               <h3 className="catalog-card-title">{item.title}</h3>
               <p className="catalog-card-desc">{item.prompt}</p>

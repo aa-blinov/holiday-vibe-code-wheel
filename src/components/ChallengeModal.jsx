@@ -21,7 +21,7 @@ export function ChallengeModal({
     if (!challenge) return '';
     return [
       `Project: ${challenge.title}`,
-      `Category: ${challenge.category} (${challenge.timeEstimate})`,
+      `Category: ${challenge.category}`,
       '',
       `Task: ${challenge.prompt}`,
       `Constraint: ${challenge.vibeRule}`,
@@ -100,7 +100,7 @@ export function ChallengeModal({
   };
 
   const handleShare = async () => {
-    const shareText = `Today's build on Holiday Vibe-Code Wheel: ${challenge.title} (${challenge.timeEstimate})\n${shareUrl}`;
+    const shareText = `Today's build on Holiday Vibe-Code Wheel: ${challenge.title}\n${shareUrl}`;
     if (navigator.share) {
       try {
         await navigator.share({
@@ -142,7 +142,6 @@ export function ChallengeModal({
       >
         <div className="modal-meta">
           <span className="meta-label">{challenge.category}</span>
-          <span className="meta-mono">{challenge.timeEstimate}</span>
         </div>
 
         <h2 id="challenge-title" className="modal-title">

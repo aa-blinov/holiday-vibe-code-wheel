@@ -702,8 +702,6 @@ const TWISTS = [
   { forKinds: ['saas', 'play', 'dev'], tag: 'Offline-Ready', addDesc: 'working 100% offline with zero external requests.', rule: 'Verify everything runs with network disabled in DevTools.' },
 ];
 
-const TIME_ESTIMATES = ['15 min', '20 min', '25 min', '30 min'];
-
 const CATEGORY_LABELS = {
   saas: 'Micro-SaaS',
   devtools: 'Dev Tool',
@@ -716,7 +714,6 @@ function buildIdea(deckKey, baseIdx, twistIdx) {
   const base = bases[baseIdx];
   const twist = TWISTS[twistIdx];
   const id = `${deckKey}-${baseIdx}-${twistIdx}`;
-  const timeEstimate = TIME_ESTIMATES[(baseIdx + twistIdx) % TIME_ESTIMATES.length];
 
   return {
     id,
@@ -724,7 +721,6 @@ function buildIdea(deckKey, baseIdx, twistIdx) {
     shortLabel: base.short,
     title: `${base.title} (${twist.tag})`,
     category: CATEGORY_LABELS[deckKey],
-    timeEstimate,
     prompt: `${base.desc}, ${twist.addDesc}`,
     vibeRule: twist.rule,
   };
