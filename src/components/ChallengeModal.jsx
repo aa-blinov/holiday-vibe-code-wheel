@@ -50,6 +50,15 @@ export function ChallengeModal({
 
   useEffect(() => {
     if (!challenge) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [challenge]);
+
+  useEffect(() => {
+    if (!challenge) return;
     const onKeyDown = (e) => {
       if (e.key === 'Escape') requestClose();
     };

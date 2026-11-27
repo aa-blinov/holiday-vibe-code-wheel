@@ -883,6 +883,7 @@ body {
   justify-content: center;
   padding: 20px;
   z-index: 20;
+  overscroll-behavior: contain;
   animation: backdropIn 180ms ease-out forwards;
 }
 
@@ -896,6 +897,7 @@ body {
   max-width: 560px;
   max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 28px;
   border-radius: var(--r-lg);
   background: var(--bg-surface);
