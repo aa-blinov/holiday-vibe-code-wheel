@@ -16,6 +16,7 @@ export function loadState() {
         history: [],
         practiceMode: false,
         theme: 'holiday',
+        onboardingSeen: false,
       };
     }
     const parsed = JSON.parse(raw);
@@ -23,12 +24,14 @@ export function loadState() {
       history: Array.isArray(parsed.history) ? parsed.history : [],
       practiceMode: Boolean(parsed.practiceMode),
       theme: parsed.theme === 'paper' ? 'paper' : 'holiday',
+      onboardingSeen: Boolean(parsed.onboardingSeen),
     };
   } catch {
     return {
       history: [],
       practiceMode: false,
       theme: 'holiday',
+      onboardingSeen: false,
     };
   }
 }

@@ -17,6 +17,7 @@ import { AdventStrip } from './components/AdventStrip';
 import { HistoryPanel } from './components/HistoryPanel';
 import { CatalogPanel } from './components/CatalogPanel';
 import { Snowfall } from './components/Snowfall';
+import { OnboardingBanner } from './components/OnboardingBanner';
 
 function getNewYearCountdown() {
   const now = new Date();
@@ -95,6 +96,7 @@ export default function App() {
 
     setState((prev) => ({
       ...prev,
+      onboardingSeen: true,
       history: [newEntry, ...prev.history],
     }));
     setPreviewChallenge(null);
@@ -121,6 +123,13 @@ export default function App() {
     setState((prev) => ({
       ...prev,
       theme: prev.theme === 'holiday' ? 'paper' : 'holiday',
+    }));
+  };
+
+  const handleDismissOnboarding = () => {
+    setState((prev) => ({
+      ...prev,
+      onboardingSeen: true,
     }));
   };
 
@@ -210,6 +219,10 @@ export default function App() {
           Shuffle wheel
         </button>
       </div>
+
+      {!state.onboardingSeen && (
+        <OnboardingBanner onDismiss={handleDismissOnboarding} />
+      )}
 
       <main className="main-grid">
         <section className="wheel-section">
