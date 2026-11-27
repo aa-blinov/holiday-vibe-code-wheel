@@ -464,11 +464,57 @@ a:focus-visible,
 
 @media (max-width: 600px) {
   .app-shell {
-    padding: 20px 16px 48px;
+    padding: 16px 16px 48px;
+  }
+
+  .topbar {
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+
+  .topbar-controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .mode-toggle {
+    padding: 0 10px;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+
+  .deck-bar {
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .deck-tabs {
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .deck-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .deck-tab {
+    flex-shrink: 0;
+    padding: 0 12px;
+  }
+
+  .deck-bar .topbar-text-btn {
+    flex-shrink: 0;
   }
 
   .wheel-section {
-    padding: 20px 16px;
+    padding: 18px 16px;
   }
 
   .panel {
