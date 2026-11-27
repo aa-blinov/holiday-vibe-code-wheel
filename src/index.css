@@ -39,6 +39,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 html,
 body {
   margin: 0;
@@ -679,6 +683,10 @@ a:focus-visible,
 }
 
 .empty-state {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   text-align: center;
   color: var(--ink-muted);
@@ -694,7 +702,7 @@ a:focus-visible,
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 280px;
+  height: 220px;
   overflow-y: auto;
 }
 
