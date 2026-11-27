@@ -730,21 +730,22 @@ function buildIdea(deckKey, baseIdx, twistIdx) {
   };
 }
 
-// Precompute compatible twist indices for each base idea so every pairing makes sense
-const COMPATIBLE_PAIRS_BY_DECK = {};
-let totalValidCount = 0;
-
-for (const deckKey of Object.keys(BASE_IDEAS)) {
-  const pairs = [];
-  BASE_IDEAS[deckKey].forEach((base, baseIdx) => {
-    TWISTS.forEach((twist, twistIdx) => {
-      if (twist.forKinds.includes(base.kind)) {
-        pairs.push([baseIdx, twistIdx]);
-      }
-    });
+// Precompute compatible twist indices by kind in O(1) without allocating 11,856 pairs
+const TWISTS_BY_KIND = {};
+for (const kind of ['doc', 'saas', 'dev', 'visual', 'play']) {
+  TWISTS_BY_KIND[kind] = [];
+  TWISTS.forEach((twist, idx) => {
+    if (twist.forKinds.includes(kind)) {
+      TWISTS_BY_KIND[kind].push(idx);
+    }
   });
-  COMPATIBLE_PAIRS_BY_DECK[deckKey] = pairs;
-  totalValidCount += pairs.length;
+}
+
+let totalValidCount = 0;
+for (const deckKey of Object.keys(BASE_IDEAS)) {
+  for (const base of BASE_IDEAS[deckKey]) {
+    totalValidCount += TWISTS_BY_KIND[base.kind].length;
+  }
 }
 
 export const TOTAL_IDEA_COUNT = totalValidCount;
@@ -782,8 +783,11 @@ export function drawWheelIdeas(deckId, count = 12) {
   while (picked.length < count && guard < 600) {
     guard++;
     const deckKey = deckKeys[Math.floor(Math.random() * deckKeys.length)];
-    const pairs = COMPATIBLE_PAIRS_BY_DECK[deckKey];
-    const [baseIdx, twistIdx] = pairs[Math.floor(Math.random() * pairs.length)];
+    const bases = BASE_IDEAS[deckKey];
+    const baseIdx = Math.floor(Math.random() * bases.length);
+    const compatibleTwists = TWISTS_BY_KIND[bases[baseIdx].kind];
+    const twistIdx =
+      compatibleTwists[Math.floor(Math.random() * compatibleTwists.length)];
     const idea = buildIdea(deckKey, baseIdx, twistIdx);
 
     if (usedIds.has(idea.id) || usedShortLabels.has(idea.shortLabel)) {
@@ -808,15 +812,19 @@ export function sampleCatalogIdeas(deckId, count = 18, searchQuery = '') {
   if (q) {
     const matches = [];
     for (const dk of deckKeys) {
-      for (const [b, t] of COMPATIBLE_PAIRS_BY_DECK[dk]) {
-        const idea = buildIdea(dk, b, t);
-        if (
-          idea.title.toLowerCase().includes(q) ||
-          idea.prompt.toLowerCase().includes(q) ||
-          idea.category.toLowerCase().includes(q)
-        ) {
-          matches.push(idea);
-          if (matches.length >= 24) return matches;
+      const bases = BASE_IDEAS[dk];
+      for (let b = 0; b < bases.length; b++) {
+        const compatibleTwists = TWISTS_BY_KIND[bases[b].kind];
+        for (const t of compatibleTwists) {
+          const idea = buildIdea(dk, b, t);
+          if (
+            idea.title.toLowerCase().includes(q) ||
+            idea.prompt.toLowerCase().includes(q) ||
+            idea.category.toLowerCase().includes(q)
+          ) {
+            matches.push(idea);
+            if (matches.length >= 24) return matches;
+          }
         }
       }
     }

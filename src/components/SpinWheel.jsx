@@ -20,6 +20,7 @@ export function SpinWheel({
   onSpinComplete,
 }) {
   const canvasRef = useRef(null);
+  const offscreenRef = useRef(null);
   const pointerRef = useRef(null);
   const rotationRef = useRef(0);
   const activeItemsRef = useRef(items);
@@ -62,27 +63,34 @@ export function SpinWheel({
     if (!isSpinning) {
       activeItemsRef.current = items;
       syncCanvasSize();
-      drawWheel(rotationRef.current, items);
+      bakeWheelBitmap(items);
+      drawWheel(rotationRef.current);
     }
   }, [items, isSpinning, theme]);
 
   useEffect(() => {
     const handleResize = () => {
       syncCanvasSize();
-      drawWheel(rotationRef.current, activeItemsRef.current);
+      bakeWheelBitmap(activeItemsRef.current);
+      drawWheel(rotationRef.current);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const drawWheel = (rotation, currentItems) => {
-    const canvas = canvasRef.current;
-    if (!canvas || !currentItems.length) return;
-    const ctx = canvas.getContext('2d');
-
+  const bakeWheelBitmap = (currentItems) => {
+    if (!currentItems.length) return;
     const displaySize = sizeRef.current.displaySize || syncCanvasSize();
     const dpr = sizeRef.current.dpr;
 
+    if (!offscreenRef.current) {
+      offscreenRef.current = document.createElement('canvas');
+    }
+    const offscreen = offscreenRef.current;
+    offscreen.width = displaySize * dpr;
+    offscreen.height = displaySize * dpr;
+
+    const ctx = offscreen.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const cx = displaySize / 2;
@@ -106,7 +114,6 @@ export function SpinWheel({
 
     ctx.clearRect(0, 0, displaySize, displaySize);
 
-    // Brutalist solid outer ring
     ctx.beginPath();
     ctx.arc(cx, cy, outerRadius, 0, TWO_PI);
     ctx.fillStyle = trackFill;
@@ -115,9 +122,8 @@ export function SpinWheel({
     ctx.strokeStyle = hardBorder;
     ctx.stroke();
 
-    // Flat, graphic slices with thick 2px borders
     for (let i = 0; i < n; i++) {
-      const startAngle = rotation + i * sliceAngle;
+      const startAngle = i * sliceAngle;
       const endAngle = startAngle + sliceAngle;
       const item = currentItems[i];
 
@@ -143,10 +149,9 @@ export function SpinWheel({
       ctx.restore();
     }
 
-    // Square-ish / stark industrial pegs at slice boundaries
     const pegRadius = outerRadius - 6;
     for (let i = 0; i < n; i++) {
-      const a = rotation + i * sliceAngle;
+      const a = i * sliceAngle;
       const px = cx + Math.cos(a) * pegRadius;
       const py = cy + Math.sin(a) * pegRadius;
 
@@ -156,7 +161,6 @@ export function SpinWheel({
       ctx.fill();
     }
 
-    // Chunky brutalist center hub
     ctx.beginPath();
     ctx.arc(cx, cy, 22, 0, TWO_PI);
     ctx.fillStyle = trackFill;
@@ -169,6 +173,26 @@ export function SpinWheel({
     ctx.arc(cx, cy, 8, 0, TWO_PI);
     ctx.fillStyle = isHoliday ? '#d9383a' : '#d62828';
     ctx.fill();
+  };
+
+  const drawWheel = (rotation) => {
+    const canvas = canvasRef.current;
+    const offscreen = offscreenRef.current;
+    if (!canvas || !offscreen) return;
+    const ctx = canvas.getContext('2d');
+
+    const displaySize = sizeRef.current.displaySize || syncCanvasSize();
+    const dpr = sizeRef.current.dpr;
+    const cx = displaySize / 2;
+    const cy = displaySize / 2;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, displaySize, displaySize);
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rotation);
+    ctx.drawImage(offscreen, -cx, -cy, displaySize, displaySize);
+    ctx.restore();
   };
 
   const flickPointer = () => {
@@ -184,6 +208,7 @@ export function SpinWheel({
 
     const spinItems = onBeforeSpin ? onBeforeSpin() : items;
     activeItemsRef.current = spinItems;
+    bakeWheelBitmap(spinItems);
     setIsSpinning(true);
 
     const reducedMotion = window.matchMedia(
@@ -207,7 +232,7 @@ export function SpinWheel({
 
       rotationRef.current = currentRotation;
       const current = activeItemsRef.current;
-      drawWheel(currentRotation, current);
+      drawWheel(currentRotation);
 
       const currentSliceIdx = getSliceIndexAtPointer(
         currentRotation,

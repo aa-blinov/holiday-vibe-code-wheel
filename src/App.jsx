@@ -128,7 +128,7 @@ export default function App() {
     }));
     setPreviewChallenge(null);
     setActiveEntryId(newEntry.id);
-    launchConfetti();
+    requestAnimationFrame(() => launchConfetti());
   };
 
   const handleToggleBuilt = (entryId) => {
