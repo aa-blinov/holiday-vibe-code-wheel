@@ -1234,6 +1234,7 @@ a:focus-visible,
 
 @media (pointer: coarse), (max-width: 768px) {
   .topbar-text-btn,
+  .mode-toggle,
   .deck-tab,
   .built-toggle,
   .btn-ghost {

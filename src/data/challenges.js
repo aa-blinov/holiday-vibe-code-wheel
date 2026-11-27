@@ -5,7 +5,7 @@ const UPCOMING_YEAR = NOW.getMonth() >= 10 ? CURRENT_YEAR + 1 : CURRENT_YEAR;
 export const DECKS = [
   { id: 'mix', label: 'All Ideas' },
   { id: 'saas', label: 'Micro-SaaS' },
-  { id: 'devtools', label: 'Dev Tools & Engines' },
+  { id: 'devtools', label: 'Dev Tools' },
   { id: 'apps', label: 'Creative Apps' },
   { id: 'holiday', label: 'Holiday & Play' },
 ];
