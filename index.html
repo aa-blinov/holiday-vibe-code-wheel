@@ -37,9 +37,62 @@
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      html, body { margin: 0; min-height: 100vh; }
+      html[data-theme='holiday'] body { background: #0b1613; color: #f5efe0; }
+      html[data-theme='dark'] body { background: #111113; color: #f4f4f5; }
+      html[data-theme='paper'] body { background: #f4f1ea; color: #111110; }
+      .boot-loader {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .boot-box {
+        width: 100%;
+        max-width: 340px;
+        padding: 20px 22px;
+        border: 2px solid currentColor;
+      }
+      html[data-theme='holiday'] .boot-box { border-color: #e6b84c; background: #13241f; box-shadow: 6px 6px 0 #040907; }
+      html[data-theme='dark'] .boot-box { border-color: #f4f4f5; background: #19191d; box-shadow: 6px 6px 0 #050506; }
+      html[data-theme='paper'] .boot-box { border-color: #111110; background: #ffffff; box-shadow: 6px 6px 0 #111110; }
+      .boot-label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 12px;
+      }
+      .boot-track {
+        height: 8px;
+        border: 2px solid currentColor;
+        overflow: hidden;
+      }
+      html[data-theme='holiday'] .boot-track { border-color: #e6b84c; }
+      .boot-bar {
+        height: 100%;
+        width: 45%;
+        background: #c92a2c;
+        animation: bootSlide 0.9s ease-in-out infinite alternate;
+      }
+      @keyframes bootSlide {
+        from { transform: translateX(-10%); }
+        to { transform: translateX(130%); }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="boot-loader" role="status" aria-live="polite">
+        <div class="boot-box">
+          <div class="boot-label">Loading Vibe-Code Wheel...</div>
+          <div class="boot-track"><div class="boot-bar"></div></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
