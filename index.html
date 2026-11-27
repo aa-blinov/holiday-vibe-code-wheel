@@ -1,10 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="holiday">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <title>Holiday Vibe-Code Wheel</title>
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('vibe_code_wheel_v1');
+          var parsed = raw ? JSON.parse(raw) : null;
+          var theme = parsed && parsed.theme === 'paper' ? 'paper' : 'holiday';
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          document.documentElement.dataset.theme = 'holiday';
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
