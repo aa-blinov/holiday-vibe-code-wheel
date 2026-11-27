@@ -179,7 +179,8 @@ a:focus-visible,
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 12px;
+  min-height: 38px;
+  padding: 0 14px;
   background: var(--bg-surface);
   border: 2px solid var(--border-hard);
   box-shadow: 3px 3px 0 var(--shadow-hard);
@@ -254,7 +255,11 @@ a:focus-visible,
 }
 
 .deck-tab {
-  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
   border: 2px solid var(--border-hard);
   background: var(--bg-surface);
   color: var(--ink);
@@ -462,7 +467,11 @@ a:focus-visible,
 
 .btn-primary,
 .btn-secondary {
-  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 20px;
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 600;
@@ -661,10 +670,14 @@ a:focus-visible,
 
 /* History List */
 .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
   background: var(--bg-surface);
   border: 2px solid var(--border-hard);
   color: var(--ink);
-  padding: 6px 12px;
+  padding: 0 12px;
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 500;
@@ -770,7 +783,11 @@ a:focus-visible,
 }
 
 .built-toggle {
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
   border: 2px solid var(--border-hard);
   background: var(--bg-surface);
   color: var(--ink);
@@ -809,13 +826,19 @@ a:focus-visible,
 }
 
 .catalog-search {
-  padding: 8px 12px;
+  height: 40px;
+  padding: 0 12px;
   border: 2px solid var(--border-hard);
   background: var(--bg-surface);
   color: var(--ink);
   font-family: var(--font-mono);
   font-size: 14px;
   min-width: 240px;
+}
+
+.catalog-controls .btn-ghost {
+  min-height: 40px;
+  padding: 0 14px;
 }
 
 .catalog-search:focus {
@@ -1129,12 +1152,13 @@ a:focus-visible,
 
 .build-url-input {
   width: 100%;
-  padding: 10px 12px;
+  height: 40px;
+  padding: 0 12px;
   border: 2px solid var(--border-hard);
   background: var(--bg-ground);
   color: var(--ink);
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .build-url-input:focus {
@@ -1170,8 +1194,9 @@ a:focus-visible,
 
 .modal-spin-again {
   width: 100%;
+  min-height: 40px;
   margin-top: 10px;
-  padding: 10px 14px;
+  padding: 0 14px;
 }
 
 .modal-close {
