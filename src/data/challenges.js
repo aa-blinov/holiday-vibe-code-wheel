@@ -7,6 +7,7 @@ export const DECKS = [
   { id: 'saas', label: 'Micro-SaaS' },
   { id: 'devtools', label: 'Dev Tools' },
   { id: 'apps', label: 'Creative Apps' },
+  { id: 'games', label: 'Games' },
   { id: 'holiday', label: 'Holiday & Play' },
 ];
 
@@ -1037,21 +1038,39 @@ export function findIdeaById(id) {
   return buildIdea(deckKey, baseIdx, twistIdx);
 }
 
+const GAME_PATTERN =
+  /\b(game|puzzle|arcade|duel|chess|tetris|stacker|2048|sudoku|wordoku|minesweeper|picross|pong|breakout|snake|maze|golf|hockey|curling|slalom|tower|match-3|trivia|crossword|wordle|solitaire|hanoi|nim|reversi|othello|tic-tac-toe|checkers|lander|asteroids|shooter|boss|hop|dodge|catch|clicker|rpg|quiz|tangram|klotski|boggle|kakuro|lights out|mastermind|connect-4|sokoban|runner|flyer|pinball|zamboni|snow fight|artillery|intercept|rythm|rhythm|falling notes|fiction|smasher|frogger|halfpipe)\b/i;
+
+function isGameIdea(base) {
+  return (
+    base.kind === 'play' &&
+    (GAME_PATTERN.test(base.title) || GAME_PATTERN.test(base.desc))
+  );
+}
+
 export function drawWheelIdeas(deckId, count = 12) {
   const deckKeys =
-    deckId === 'mix' ? Object.keys(BASE_IDEAS) : [deckId];
+    deckId === 'mix' || deckId === 'games'
+      ? Object.keys(BASE_IDEAS)
+      : [deckId];
 
   const picked = [];
   const usedShortLabels = new Set();
   const usedIds = new Set();
   let guard = 0;
 
-  while (picked.length < count && guard < 600) {
+  while (picked.length < count && guard < 1200) {
     guard++;
     const deckKey = deckKeys[Math.floor(Math.random() * deckKeys.length)];
     const bases = BASE_IDEAS[deckKey];
     const baseIdx = Math.floor(Math.random() * bases.length);
-    const compatibleTwists = TWISTS_BY_KIND[bases[baseIdx].kind];
+    const base = bases[baseIdx];
+
+    if (deckId === 'games' && !isGameIdea(base)) {
+      continue;
+    }
+
+    const compatibleTwists = TWISTS_BY_KIND[base.kind];
     const twistIdx =
       compatibleTwists[Math.floor(Math.random() * compatibleTwists.length)];
     const idea = buildIdea(deckKey, baseIdx, twistIdx);
@@ -1072,7 +1091,10 @@ export function drawWheelIdeas(deckId, count = 12) {
 }
 
 export function sampleCatalogIdeas(deckId, count = 18, searchQuery = '') {
-  const deckKeys = deckId === 'mix' ? Object.keys(BASE_IDEAS) : [deckId];
+  const deckKeys =
+    deckId === 'mix' || deckId === 'games'
+      ? Object.keys(BASE_IDEAS)
+      : [deckId];
   const q = searchQuery.trim().toLowerCase();
 
   if (q) {
@@ -1080,6 +1102,9 @@ export function sampleCatalogIdeas(deckId, count = 18, searchQuery = '') {
     for (const dk of deckKeys) {
       const bases = BASE_IDEAS[dk];
       for (let b = 0; b < bases.length; b++) {
+        if (deckId === 'games' && !isGameIdea(bases[b])) {
+          continue;
+        }
         const compatibleTwists = TWISTS_BY_KIND[bases[b].kind];
         for (const t of compatibleTwists) {
           const idea = buildIdea(dk, b, t);
