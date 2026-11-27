@@ -1,3 +1,7 @@
+const NOW = new Date();
+const CURRENT_YEAR = NOW.getFullYear();
+const UPCOMING_YEAR = NOW.getMonth() >= 10 ? CURRENT_YEAR + 1 : CURRENT_YEAR;
+
 export const DECKS = [
   { id: 'mix', label: 'All Ideas' },
   { id: 'saas', label: 'Micro-SaaS' },
@@ -418,7 +422,7 @@ const BASE_IDEAS = {
     { kind: 'play', short: '8-Bit Jingle', title: 'Holiday Step Sequencer', desc: '8-step WebAudio melody grid preloaded with Jingle Bells and tempo control' },
     { kind: 'play', short: 'ASCII Pine', title: 'Twinkling ASCII Tree', desc: 'Terminal-ready Christmas tree generator with height and ornament density sliders' },
     { kind: 'play', short: 'Scratch Card', title: 'Scratch-Off Fortune', desc: 'Canvas foil card that reveals a New Year developer fortune as you rub across it' },
-    { kind: 'saas', short: 'Time Capsule', title: '2027 Local Note Vault', desc: 'Seal 3 goals for next year until a chosen unlock date with JSON backup export' },
+    { kind: 'saas', short: 'Time Capsule', title: `${UPCOMING_YEAR} Local Note Vault`, desc: 'Seal 3 goals for the year ahead until a chosen unlock date with JSON backup export' },
     { kind: 'saas', short: 'New Year Clk', title: 'Multi-City Countdown', desc: 'Live Jan 1 countdown across Tokyo, London, New York, and local time with tabular digits' },
     { kind: 'play', short: 'Cocoa Click', title: 'Hot Cocoa Idle Game', desc: '2-minute clicker where brewing cocoa unlocks Cinnamon, Cream, and Espresso upgrades' },
     { kind: 'visual', short: 'Snowflake Lab', title: 'Symmetry Snowflake SVG', desc: '6-fold symmetrical Canvas drawing toy that exports crisp vector snowflakes' },
@@ -482,12 +486,12 @@ const BASE_IDEAS = {
     { kind: 'visual', short: 'Advent Art', title: '25-Day Collage Grid', desc: 'Drop 25 tiny daily build screenshots into a clean numbered Advent poster' },
     { kind: 'saas', short: 'Habit Advent', title: '25-Day Coding Streak', desc: 'Track 25 daily 20-minute commits with commit links and completion percentage' },
     { kind: 'saas', short: 'Gift Ideas', title: 'Year-Round Gift Vault', desc: 'Save gift ideas whenever friends mention them, tagged by person and price tier' },
-    { kind: 'doc', short: 'Year Stats', title: '2026 Reading & Media', desc: 'Summarize top books, films, albums, and trips into a neat printable year-end card' },
+    { kind: 'doc', short: 'Year Stats', title: `${CURRENT_YEAR} Reading & Media`, desc: 'Summarize top books, films, albums, and trips into a neat printable year-end card' },
     { kind: 'play', short: 'Snowman Dodge', title: 'Snowball Dodge Arena', desc: 'Survive 45 seconds in a shrinking icy arena while dodging bouncing snowballs' },
     { kind: 'play', short: 'Train Loop', title: 'Toy Train Track Builder', desc: 'Click grid tiles to lay curved and straight tracks for a little looping holiday train' },
     { kind: 'play', short: 'Sparkler', title: 'New Year Sparkler Trail', desc: 'Move your cursor to wave a glowing golden sparkler with fading ember sparks' },
     { kind: 'play', short: 'Confetti Lab', title: 'Physics Confetti Lab', desc: 'Tweak gravity, air drag, and spread angle for custom midnight confetti bursts' },
-    { kind: 'visual', short: 'Calendar Print', title: '1-Page 2027 Calendar', desc: 'Generate a clean full-year 12-month poster with highlighted holidays for printing' },
+    { kind: 'visual', short: 'Calendar Print', title: `1-Page ${UPCOMING_YEAR} Calendar`, desc: 'Generate a clean full-year 12-month poster with highlighted holidays for printing' },
     { kind: 'visual', short: 'Bookmark Print', title: 'Printable Bookmarks', desc: 'Design 4 vertical winter bookmarks with quotes and cut lines on one A4 sheet' },
     { kind: 'saas', short: 'Charity Calc', title: 'Year-End Giving Planner', desc: 'Allocate a charitable budget across causes with percentage sliders and tax tally' },
     { kind: 'saas', short: 'Playlist Vote', title: 'New Year Party Jukebox', desc: 'Guests submit song requests and vote up the countdown hour playlist' },
@@ -499,7 +503,7 @@ const BASE_IDEAS = {
     { kind: 'play', short: 'Crossword Mini', title: '5x5 Holiday Mini', desc: 'Playable 5x5 mini crossword with clue list, check-letter button, and timer' },
     { kind: 'play', short: 'Memory Sound', title: 'Holiday Bell Pairs', desc: 'Flip cards that play WebAudio chimes instead of showing icons to match by ear' },
     { kind: 'visual', short: 'Snow Globe SVG', title: 'Vector Globe Designer', desc: 'Pick cabin, pine, or deer silhouettes inside a globe and export crisp SVG' },
-    { kind: 'visual', short: 'Countdown Card', title: 'Days-Left Social Card', desc: 'Render a bold typographic "X Days Left in 2026" image ready to share' },
+    { kind: 'visual', short: 'Countdown Card', title: 'Days-Left Social Card', desc: `Render a bold typographic "X Days Left in ${CURRENT_YEAR}" image ready to share` },
     { kind: 'saas', short: 'Resolution Log', title: 'Weekly Habit Check-In', desc: 'Track 52 weeks of one key New Year habit with simple Done/Skip dots' },
     { kind: 'saas', short: 'Declutter 30', title: '30-Day Declutter Game', desc: 'Drop 1 item on Day 1, 2 on Day 2, up to 30—track total items cleared this month' },
     { kind: 'doc', short: 'Meal Prep', title: 'Holiday Leftovers Plan', desc: 'Check off leftover ingredients in your fridge to get 5 structured remix meal ideas' },
@@ -517,7 +521,7 @@ const BASE_IDEAS = {
     { kind: 'play', short: 'Gift Stacker', title: 'Balanced Present Tower', desc: 'Drop boxes of varying widths onto a sled without tipping the center of mass' },
     { kind: 'play', short: 'Elf Factory', title: 'Conveyor Belt Sorter', desc: 'Toggle track switches to route wrapped gifts into matching color chutes' },
     { kind: 'play', short: 'Aurora Canvas', title: 'Northern Lights Shader', desc: 'Interactive ribbon curtains of aurora borealis swaying smoothly across the sky' },
-    { kind: 'visual', short: 'Receipt 2026', title: 'Spotify-Style Year Bill', desc: 'Format your top 10 moments of the year into a crisp thermal receipt graphic' },
+    { kind: 'visual', short: `Receipt ${CURRENT_YEAR}`, title: 'Spotify-Style Year Bill', desc: 'Format your top 10 moments of the year into a crisp thermal receipt graphic' },
     { kind: 'visual', short: 'Sticker Sheet', title: 'Winter Icon Stickers', desc: 'Customize 9 flat vector winter stickers and export a print-ready sticker sheet' },
     { kind: 'saas', short: 'Book Swap', title: 'Office Book Exchange', desc: 'Match teammates to swap their favorite book of the year with wishlist hints' },
     { kind: 'saas', short: 'No-Spend', title: 'January No-Spend Grid', desc: '31-day calendar tracking zero-spend days vs essentials vs treats' },
@@ -537,7 +541,7 @@ const BASE_IDEAS = {
     { kind: 'play', short: 'Ice Sculpt', title: 'Chisel Ice Block Toy', desc: 'Chip away pixels from a frosted ice block on Canvas to reveal a hidden sculpture' },
     { kind: 'play', short: 'Snow Cannon', title: 'Trajectory Snow Fort', desc: 'Aim angle and velocity to lob snowballs over an icy wall in a 2-player turn game' },
     { kind: 'visual', short: 'Polaroid Frame', title: 'Winter Polaroid Maker', desc: 'Drop a photo into a classic instant-film frame with handwritten-style date caption' },
-    { kind: 'visual', short: 'Monogram', title: 'Festive Crest Builder', desc: 'Combine two initials, a border frame, and year 2027 into a crisp SVG monogram' },
+    { kind: 'visual', short: 'Monogram', title: 'Festive Crest Builder', desc: `Combine two initials, a border frame, and year ${UPCOMING_YEAR} into a crisp SVG monogram` },
     { kind: 'saas', short: 'Habit Buddy', title: '2-Person Streak Sync', desc: 'Generate a shareable link showing both players weekly check-ins side-by-side' },
     { kind: 'play', short: 'Bell Matrix', title: 'Pentatonic Snow Matrix', desc: '16x8 ambient step sequencer where every lit cell plays a gentle winter chime' },
   ],

@@ -22,12 +22,31 @@ import { launchConfetti } from './utils/confetti';
 
 function getNewYearCountdown() {
   const now = new Date();
-  const nextYear = now.getFullYear() + 1;
-  const target = new Date(nextYear, 0, 1, 0, 0, 0);
-  const diffMs = Math.max(0, target.getTime() - now.getTime());
-  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-  return `${days}d ${hours}h to ${nextYear}`;
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const day = now.getDate();
+
+  // Nov 15 – Dec 31: countdown to New Year
+  if (month === 11 || (month === 10 && day >= 15)) {
+    const nextYear = year + 1;
+    const target = new Date(nextYear, 0, 1, 0, 0, 0);
+    const diffMs = Math.max(0, target.getTime() - now.getTime());
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+    return `${days}d ${hours}h to ${nextYear}`;
+  }
+
+  // Jan 1 – Jan 10: New Year week
+  if (month === 0 && day <= 10) {
+    return `Happy ${year} · Day ${day}`;
+  }
+
+  // Rest of the year: evergreen daily build counter
+  const startOfYear = new Date(year, 0, 0);
+  const dayOfYear = Math.floor(
+    (now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return `Day ${dayOfYear} of ${year}`;
 }
 
 export default function App() {

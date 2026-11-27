@@ -8,13 +8,15 @@ export function AdventStrip({ history, onSelectEntry }) {
     .slice()
     .reverse();
   const totalSlots = 25;
-  const unlockedCount = Math.min(officialSpins.length, totalSlots);
+  const unlockedCount = officialSpins.length;
+  const cycleIndex = Math.floor(Math.max(0, unlockedCount - 1) / totalSlots);
+  const offset = cycleIndex * totalSlots;
   const builtSpins = officialSpins.filter((item) => item.built);
   const builtCount = builtSpins.length;
 
   const handleCopySummary = async () => {
     const lines = [
-      `Holiday Vibe-Code Wheel (${builtCount}/25 built)`,
+      `Holiday Vibe-Code Wheel (${builtCount} built / ${unlockedCount} unlocked)`,
       '',
       ...builtSpins.map((item, idx) => {
         const linkPart = item.buildUrl ? ` — ${item.buildUrl}` : '';
@@ -34,13 +36,17 @@ export function AdventStrip({ history, onSelectEntry }) {
     <section className="panel">
       <div className="panel-header">
         <div>
-          <h2 className="panel-title">Advent streak</h2>
+          <h2 className="panel-title">
+            {cycleIndex > 0 ? `Build streak (Cycle ${cycleIndex + 1})` : 'Advent streak'}
+          </h2>
           <p className="panel-subtitle">
             One official spin per day. Click an unlocked day to open its prompt.
           </p>
         </div>
         <div className="stats-group">
-          <span className="stat-chip">{unlockedCount}/25 unlocked</span>
+          <span className="stat-chip">
+            {unlockedCount <= 25 ? `${unlockedCount}/25` : unlockedCount} unlocked
+          </span>
           <span className="stat-chip is-accent">{builtCount} built</span>
           {builtCount > 0 && (
             <button
@@ -56,8 +62,8 @@ export function AdventStrip({ history, onSelectEntry }) {
 
       <div className="advent-grid">
         {Array.from({ length: totalSlots }, (_, idx) => {
-          const dayNum = idx + 1;
-          const spin = officialSpins[idx];
+          const dayNum = offset + idx + 1;
+          const spin = officialSpins[offset + idx];
           const isUnlocked = Boolean(spin);
           const isBuilt = Boolean(spin?.built);
 
