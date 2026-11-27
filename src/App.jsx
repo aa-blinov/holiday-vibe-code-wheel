@@ -18,6 +18,7 @@ import { HistoryPanel } from './components/HistoryPanel';
 import { CatalogPanel } from './components/CatalogPanel';
 import { Snowfall } from './components/Snowfall';
 import { OnboardingBanner } from './components/OnboardingBanner';
+import { launchConfetti } from './utils/confetti';
 
 function getNewYearCountdown() {
   const now = new Date();
@@ -34,7 +35,11 @@ export default function App() {
   const [activeDeck, setActiveDeck] = useState('mix');
   const [wheelItems, setWheelItems] = useState(() => drawWheelIdeas('mix', 12));
   const [activeEntryId, setActiveEntryId] = useState(null);
-  const [previewChallenge, setPreviewChallenge] = useState(null);
+  const [previewChallenge, setPreviewChallenge] = useState(() => {
+    const ideaId = new URLSearchParams(window.location.search).get('idea');
+    return ideaId ? findIdeaById(ideaId) : null;
+  });
+  const [spinRequestId, setSpinRequestId] = useState(0);
   const [countdown, setCountdown] = useState(() => getNewYearCountdown());
 
   useEffect(() => {
@@ -101,6 +106,7 @@ export default function App() {
     }));
     setPreviewChallenge(null);
     setActiveEntryId(newEntry.id);
+    launchConfetti();
   };
 
   const handleToggleBuilt = (entryId) => {
@@ -123,6 +129,13 @@ export default function App() {
     setState((prev) => ({
       ...prev,
       theme: prev.theme === 'holiday' ? 'paper' : 'holiday',
+    }));
+  };
+
+  const handleToggleSound = () => {
+    setState((prev) => ({
+      ...prev,
+      soundEnabled: !prev.soundEnabled,
     }));
   };
 
@@ -159,6 +172,14 @@ export default function App() {
 
         <div className="topbar-controls">
           <span className="countdown-chip">{countdown}</span>
+
+          <button
+            type="button"
+            className="btn-ghost"
+            onClick={handleToggleSound}
+          >
+            {state.soundEnabled ? 'Sound: On' : 'Sound: Off'}
+          </button>
 
           <button
             type="button"
@@ -230,6 +251,8 @@ export default function App() {
             items={wheelItems}
             disabled={wheelDisabled}
             theme={state.theme}
+            soundEnabled={state.soundEnabled}
+            spinRequestId={spinRequestId}
             onBeforeSpin={handleBeforeSpin}
             onSpinComplete={handleSpinComplete}
           />
@@ -271,6 +294,11 @@ export default function App() {
       <ChallengeModal
         entry={activeEntry}
         challenge={activeChallenge}
+        canSpinAgain={state.practiceMode}
+        onSpinAgain={() => {
+          handleCloseModal();
+          setSpinRequestId((n) => n + 1);
+        }}
         onClose={handleCloseModal}
         onToggleBuilt={handleToggleBuilt}
       />

@@ -1,15 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
+import { playTick, playWinChime } from '../utils/sound';
 
 const TWO_PI = Math.PI * 2;
 const POINTER_ANGLE = (3 * Math.PI) / 2;
 
-export function SpinWheel({ items, disabled, theme = 'holiday', onBeforeSpin, onSpinComplete }) {
+function getSliceIndexAtPointer(rotation, count) {
+  const normalized = (((POINTER_ANGLE - rotation) % TWO_PI) + TWO_PI) % TWO_PI;
+  const sliceAngle = TWO_PI / count;
+  return Math.floor(normalized / sliceAngle) % count;
+}
+
+export function SpinWheel({
+  items,
+  disabled,
+  theme = 'holiday',
+  soundEnabled = true,
+  spinRequestId = 0,
+  onBeforeSpin,
+  onSpinComplete,
+}) {
   const canvasRef = useRef(null);
   const rotationRef = useRef(0);
   const activeItemsRef = useRef(items);
   const themeRef = useRef(theme);
+  const soundRef = useRef(soundEnabled);
   const sizeRef = useRef({ displaySize: 0, dpr: 1 });
   const [isSpinning, setIsSpinning] = useState(false);
+
+  useEffect(() => {
+    soundRef.current = soundEnabled;
+  }, [soundEnabled]);
 
   const syncCanvasSize = () => {
     const canvas = canvasRef.current;
@@ -142,6 +162,7 @@ export function SpinWheel({ items, disabled, theme = 'holiday', onBeforeSpin, on
     const totalDelta = extraSpins * TWO_PI + randomOffset;
     const duration = 4000;
     const startTime = performance.now();
+    let lastSliceIdx = getSliceIndexAtPointer(startRotation, spinItems.length);
 
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
@@ -152,23 +173,59 @@ export function SpinWheel({ items, disabled, theme = 'holiday', onBeforeSpin, on
       const currentRotation = startRotation + totalDelta * eased;
 
       rotationRef.current = currentRotation;
-      drawWheel(currentRotation, activeItemsRef.current);
+      const current = activeItemsRef.current;
+      drawWheel(currentRotation, current);
+
+      const currentSliceIdx = getSliceIndexAtPointer(
+        currentRotation,
+        current.length
+      );
+      if (currentSliceIdx !== lastSliceIdx) {
+        lastSliceIdx = currentSliceIdx;
+        if (soundRef.current) {
+          playTick();
+        }
+      }
 
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        const current = activeItemsRef.current;
-        const normalized =
-          (((POINTER_ANGLE - currentRotation) % TWO_PI) + TWO_PI) % TWO_PI;
-        const sliceAngle = TWO_PI / current.length;
-        const winningIndex = Math.floor(normalized / sliceAngle) % current.length;
         setIsSpinning(false);
-        onSpinComplete(current[winningIndex]);
+        if (soundRef.current) {
+          playWinChime();
+        }
+        onSpinComplete(current[currentSliceIdx]);
       }
     };
 
     requestAnimationFrame(animate);
   };
+
+  useEffect(() => {
+    if (spinRequestId > 0) {
+      handleSpin();
+    }
+  }, [spinRequestId]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.code !== 'Space') return;
+      const tag = document.activeElement?.tagName;
+      if (
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        tag === 'SELECT' ||
+        tag === 'BUTTON' ||
+        document.querySelector('.modal-backdrop')
+      ) {
+        return;
+      }
+      e.preventDefault();
+      handleSpin();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  });
 
   return (
     <div className="wheel-wrapper">

@@ -2,8 +2,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 const CLOSE_DURATION_MS = 170;
 
-export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
-  const [copied, setCopied] = useState(false);
+export function ChallengeModal({
+  entry,
+  challenge,
+  canSpinAgain = false,
+  onSpinAgain,
+  onClose,
+  onToggleBuilt,
+}) {
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef(null);
 
@@ -22,7 +30,8 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
 
   useEffect(() => {
     setIsClosing(false);
-    setCopied(false);
+    setCopiedPrompt(false);
+    setCopiedLink(false);
     return () => {
       if (closeTimerRef.current) {
         clearTimeout(closeTimerRef.current);
@@ -30,12 +39,12 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
     };
   }, [challenge]);
 
-  const requestClose = () => {
+  const requestClose = (callback = onClose) => {
     if (isClosing) return;
     setIsClosing(true);
     closeTimerRef.current = setTimeout(() => {
       setIsClosing(false);
-      onClose();
+      callback();
     }, CLOSE_DURATION_MS);
   };
 
@@ -50,11 +59,22 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
 
   if (!challenge) return null;
 
-  const handleCopy = async () => {
+  const handleCopyPrompt = async () => {
     try {
       await navigator.clipboard.writeText(fullPromptText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
+      setCopiedPrompt(true);
+      setTimeout(() => setCopiedPrompt(false), 1800);
+    } catch {
+      // Clipboard may be unavailable outside HTTPS/localhost
+    }
+  };
+
+  const handleCopyLink = async () => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}?idea=${encodeURIComponent(challenge.id)}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 1800);
     } catch {
       // Clipboard may be unavailable outside HTTPS/localhost
     }
@@ -63,7 +83,7 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
   return (
     <div
       className={`modal-backdrop ${isClosing ? 'is-closing' : ''}`}
-      onClick={requestClose}
+      onClick={() => requestClose()}
     >
       <div
         className={`modal-card ${isClosing ? 'is-closing' : ''}`}
@@ -100,8 +120,20 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
         </div>
 
         <div className="modal-actions">
-          <button type="button" className="btn-secondary" onClick={handleCopy}>
-            {copied ? 'Prompt copied' : 'Copy prompt'}
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={handleCopyPrompt}
+          >
+            {copiedPrompt ? 'Prompt copied' : 'Copy prompt'}
+          </button>
+
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={handleCopyLink}
+          >
+            {copiedLink ? 'Link copied' : 'Copy link'}
           </button>
 
           {entry && (
@@ -115,10 +147,20 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
           )}
         </div>
 
+        {canSpinAgain && onSpinAgain && (
+          <button
+            type="button"
+            className="btn-ghost modal-spin-again"
+            onClick={() => requestClose(onSpinAgain)}
+          >
+            Spin again
+          </button>
+        )}
+
         <button
           type="button"
           className="modal-close"
-          onClick={requestClose}
+          onClick={() => requestClose()}
           aria-label="Close dialog"
         >
           ×

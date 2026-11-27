@@ -998,12 +998,20 @@ body {
 
 .modal-actions {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .modal-actions .btn-primary,
 .modal-actions .btn-secondary {
   flex: 1;
+  min-width: 130px;
+}
+
+.modal-spin-again {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 14px;
 }
 
 .modal-close {

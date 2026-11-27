@@ -17,6 +17,7 @@ export function loadState() {
         practiceMode: false,
         theme: 'holiday',
         onboardingSeen: false,
+        soundEnabled: true,
       };
     }
     const parsed = JSON.parse(raw);
@@ -25,6 +26,7 @@ export function loadState() {
       practiceMode: Boolean(parsed.practiceMode),
       theme: parsed.theme === 'paper' ? 'paper' : 'holiday',
       onboardingSeen: Boolean(parsed.onboardingSeen),
+      soundEnabled: parsed.soundEnabled !== false,
     };
   } catch {
     return {
@@ -32,6 +34,7 @@ export function loadState() {
       practiceMode: false,
       theme: 'holiday',
       onboardingSeen: false,
+      soundEnabled: true,
     };
   }
 }
