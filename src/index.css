@@ -135,19 +135,30 @@ a:focus-visible,
 }
 
 .countdown-chip {
-  padding: 7px 12px;
-  border-radius: var(--r-sm);
-  background: var(--bg-subtle);
-  border: 1px solid var(--hairline);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: 13px;
-  color: var(--ink);
+  color: var(--ink-muted);
 }
 
 :root[data-theme='holiday'] .countdown-chip {
-  border-color: rgba(217, 164, 65, 0.4);
   color: var(--gold);
+}
+
+.topbar-text-btn {
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.14s ease;
+}
+
+.topbar-text-btn:hover {
+  color: var(--ink);
 }
 
 :root[data-theme='holiday'] .wheel-pointer {
@@ -223,19 +234,19 @@ a:focus-visible,
 }
 
 .today-pill {
-  padding: 8px 14px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--pine);
-  background: var(--pine-soft);
+  padding: 4px 2px;
+  border: none;
+  border-bottom: 1px solid var(--pine);
+  background: none;
   color: var(--pine);
   font-family: var(--font-sans);
   font-size: 14px;
   cursor: pointer;
-  transition: transform 0.12s ease;
+  transition: opacity 0.12s ease;
 }
 
 .today-pill:hover {
-  transform: translateY(-1px);
+  opacity: 0.8;
 }
 
 /* Deck Bar */
@@ -245,37 +256,43 @@ a:focus-visible,
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  border-bottom: 1px solid var(--hairline);
   margin-bottom: 24px;
 }
 
 .deck-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 20px;
 }
 
 .deck-tab {
-  padding: 8px 14px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--hairline);
-  background: var(--bg-surface);
+  padding: 10px 2px;
+  margin-bottom: -1px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
   color: var(--ink-muted);
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .deck-tab:hover {
-  border-color: var(--hairline-strong);
   color: var(--ink);
 }
 
 .deck-tab.is-active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--bg-surface);
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+:root[data-theme='holiday'] .deck-tab.is-active {
+  background: none;
+  color: var(--gold);
+  border-bottom-color: var(--gold);
 }
 
 /* Onboarding */
@@ -563,14 +580,12 @@ a:focus-visible,
 
 .stats-group {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .stat-chip {
-  padding: 4px 10px;
-  border-radius: var(--r-sm);
-  background: var(--bg-subtle);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: 13px;
@@ -578,9 +593,12 @@ a:focus-visible,
 }
 
 .stat-chip.is-accent {
-  background: var(--pine-soft);
   color: var(--pine);
   font-weight: 500;
+}
+
+:root[data-theme='holiday'] .stat-chip.is-accent {
+  color: #a9e6c9;
 }
 
 /* Advent Grid */

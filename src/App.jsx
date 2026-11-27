@@ -190,15 +190,15 @@ export default function App() {
 
           <button
             type="button"
-            className="btn-ghost"
+            className="topbar-text-btn"
             onClick={handleToggleSound}
           >
-            {state.soundEnabled ? 'Sound: On' : 'Sound: Off'}
+            {state.soundEnabled ? 'Sound on' : 'Sound off'}
           </button>
 
           <button
             type="button"
-            className="btn-ghost"
+            className="topbar-text-btn"
             onClick={handleToggleTheme}
           >
             {state.theme === 'holiday' ? 'Theme: New Year' : 'Theme: Paper'}
@@ -249,7 +249,7 @@ export default function App() {
 
         <button
           type="button"
-          className="btn-ghost"
+          className="topbar-text-btn"
           onClick={() => setWheelItems(drawWheelIdeas(activeDeck, 12))}
         >
           Shuffle wheel
