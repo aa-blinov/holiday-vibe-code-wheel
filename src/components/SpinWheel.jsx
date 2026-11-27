@@ -230,11 +230,14 @@ export function SpinWheel({
     activeItemsRef.current = spinItems;
     setIsSpinning(true);
 
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
     const startRotation = rotationRef.current;
-    const extraSpins = 5 + Math.floor(Math.random() * 4);
+    const extraSpins = reducedMotion ? 1 : 5 + Math.floor(Math.random() * 4);
     const randomOffset = Math.random() * TWO_PI;
     const totalDelta = extraSpins * TWO_PI + randomOffset;
-    const duration = 4000;
+    const duration = reducedMotion ? 280 : 4000;
     const startTime = performance.now();
     let lastSliceIdx = getSliceIndexAtPointer(startRotation, spinItems.length);
 

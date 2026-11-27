@@ -15,6 +15,7 @@ export function ChallengeModal({
   const [copiedShare, setCopiedShare] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef(null);
+  const modalRef = useRef(null);
 
   const fullPromptText = useMemo(() => {
     if (!challenge) return '';
@@ -56,6 +57,7 @@ export function ChallengeModal({
 
   useEffect(() => {
     if (!challenge) return;
+    const prevFocused = document.activeElement;
     const prevOverflow = document.body.style.overflow;
     const prevPaddingRight = document.body.style.paddingRight;
     const scrollbarWidth =
@@ -65,10 +67,14 @@ export function ChallengeModal({
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
+    modalRef.current?.focus();
 
     return () => {
       document.body.style.overflow = prevOverflow;
       document.body.style.paddingRight = prevPaddingRight;
+      if (prevFocused && typeof prevFocused.focus === 'function') {
+        prevFocused.focus();
+      }
     };
   }, [challenge]);
 
@@ -126,6 +132,8 @@ export function ChallengeModal({
       onClick={() => requestClose()}
     >
       <div
+        ref={modalRef}
+        tabIndex={-1}
         className={`modal-card ${isClosing ? 'is-closing' : ''}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
@@ -239,7 +247,18 @@ export function ChallengeModal({
           onClick={() => requestClose()}
           aria-label="Close dialog"
         >
-          ×
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 4l10 10M14 4L4 14" />
+          </svg>
         </button>
       </div>
     </div>
