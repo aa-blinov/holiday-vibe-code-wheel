@@ -92,8 +92,17 @@ export function SpinWheel({
     const n = currentItems.length;
     const sliceAngle = TWO_PI / n;
     const isHoliday = themeRef.current === 'holiday';
-    const hardBorder = isHoliday ? '#e6b84c' : '#111110';
-    const trackFill = isHoliday ? '#08110f' : '#ffffff';
+    const isDark = themeRef.current === 'dark';
+    const hardBorder = isHoliday
+      ? '#e6b84c'
+      : isDark
+        ? '#f4f4f5'
+        : '#111110';
+    const trackFill = isHoliday
+      ? '#08110f'
+      : isDark
+        ? '#111113'
+        : '#ffffff';
 
     ctx.clearRect(0, 0, displaySize, displaySize);
 

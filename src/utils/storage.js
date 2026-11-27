@@ -8,23 +8,40 @@ export function getTodayKey() {
   return `${y}-${m}-${d}`;
 }
 
+export function isHolidaySeason(date = new Date()) {
+  const m = date.getMonth();
+  const d = date.getDate();
+  return m === 11 || (m === 10 && d >= 15) || (m === 0 && d <= 10);
+}
+
+export function getDefaultTheme() {
+  return isHolidaySeason() ? 'holiday' : 'dark';
+}
+
 export function loadState() {
+  const defaultTheme = getDefaultTheme();
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return {
         history: [],
         practiceMode: false,
-        theme: 'holiday',
+        theme: defaultTheme,
         onboardingSeen: false,
         soundEnabled: true,
       };
     }
     const parsed = JSON.parse(raw);
+    const validTheme =
+      parsed.theme === 'holiday' ||
+      parsed.theme === 'dark' ||
+      parsed.theme === 'paper'
+        ? parsed.theme
+        : defaultTheme;
     return {
       history: Array.isArray(parsed.history) ? parsed.history : [],
       practiceMode: Boolean(parsed.practiceMode),
-      theme: parsed.theme === 'paper' ? 'paper' : 'holiday',
+      theme: validTheme,
       onboardingSeen: Boolean(parsed.onboardingSeen),
       soundEnabled: parsed.soundEnabled !== false,
     };
@@ -32,7 +49,7 @@ export function loadState() {
     return {
       history: [],
       practiceMode: false,
-      theme: 'holiday',
+      theme: defaultTheme,
       onboardingSeen: false,
       soundEnabled: true,
     };

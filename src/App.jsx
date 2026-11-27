@@ -26,14 +26,17 @@ function getNewYearCountdown() {
   const month = now.getMonth();
   const day = now.getDate();
 
-  // Nov 15 – Dec 31: countdown to New Year
+  // Nov 15 – Dec 31: live countdown with seconds to Jan 1
   if (month === 11 || (month === 10 && day >= 15)) {
     const nextYear = year + 1;
     const target = new Date(nextYear, 0, 1, 0, 0, 0);
     const diffMs = Math.max(0, target.getTime() - now.getTime());
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-    return `${days}d ${hours}h to ${nextYear}`;
+    const totalSec = Math.floor(diffMs / 1000);
+    const days = Math.floor(totalSec / 86400);
+    const hours = String(Math.floor((totalSec % 86400) / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+    const secs = String(totalSec % 60).padStart(2, '0');
+    return `${days}d ${hours}h ${mins}m ${secs}s to ${nextYear}`;
   }
 
   // Jan 1 – Jan 10: New Year week
@@ -69,7 +72,7 @@ export default function App() {
   useEffect(() => {
     const id = setInterval(() => {
       setCountdown(getNewYearCountdown());
-    }, 60000);
+    }, 1000);
     return () => clearInterval(id);
   }, []);
 
@@ -154,10 +157,11 @@ export default function App() {
   };
 
   const handleToggleTheme = () => {
-    setState((prev) => ({
-      ...prev,
-      theme: prev.theme === 'holiday' ? 'paper' : 'holiday',
-    }));
+    const order = ['holiday', 'dark', 'paper'];
+    setState((prev) => {
+      const next = order[(order.indexOf(prev.theme) + 1) % order.length];
+      return { ...prev, theme: next };
+    });
   };
 
   const handleToggleSound = () => {
@@ -200,8 +204,7 @@ export default function App() {
         <div className="topbar-left">
           <h1 className="brand-title">Holiday Vibe-Code Wheel</h1>
           <p className="brand-sub">
-            Daily prompts for small web tools and services.{' '}
-            <span className="countdown-inline">{countdown}</span>
+            Daily prompts for small web tools and services.
           </p>
         </div>
 
@@ -219,7 +222,11 @@ export default function App() {
             className="topbar-text-btn"
             onClick={handleToggleTheme}
           >
-            {state.theme === 'holiday' ? 'Theme: New Year' : 'Theme: Paper'}
+            {state.theme === 'holiday'
+              ? 'Theme: New Year'
+              : state.theme === 'dark'
+                ? 'Theme: Dark'
+                : 'Theme: Light'}
           </button>
 
           <label className="mode-toggle">
@@ -267,6 +274,7 @@ export default function App() {
 
       <main className="main-grid">
         <section className="wheel-section">
+          <div className="wheel-countdown">{countdown}</div>
           <SpinWheel
             items={wheelItems}
             disabled={wheelDisabled}

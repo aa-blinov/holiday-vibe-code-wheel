@@ -16,9 +16,15 @@
     <script>
       (function () {
         try {
+          var now = new Date();
+          var m = now.getMonth();
+          var d = now.getDate();
+          var isHoliday = m === 11 || (m === 10 && d >= 15) || (m === 0 && d <= 10);
+          var fallback = isHoliday ? 'holiday' : 'dark';
           var raw = localStorage.getItem('vibe_code_wheel_v1');
           var parsed = raw ? JSON.parse(raw) : null;
-          var theme = parsed && parsed.theme === 'paper' ? 'paper' : 'holiday';
+          var t = parsed && parsed.theme;
+          var theme = t === 'holiday' || t === 'dark' || t === 'paper' ? t : fallback;
           document.documentElement.dataset.theme = theme;
         } catch (e) {
           document.documentElement.dataset.theme = 'holiday';

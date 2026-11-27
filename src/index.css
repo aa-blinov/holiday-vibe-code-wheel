@@ -39,6 +39,24 @@
   --gold: #e6b84c;
 }
 
+:root[data-theme='dark'] {
+  --bg-ground: #111113;
+  --bg-surface: #19191d;
+  --bg-subtle: #24242a;
+  --bg-advent: #15211c;
+  --bg-log: #161c26;
+  --bg-onboard: #242016;
+  --ink: #f4f4f5;
+  --ink-muted: #a8a8b3;
+  --border-hard: #f4f4f5;
+  --shadow-hard: #050506;
+  --accent: #cf2e34;
+  --accent-hover: #b32329;
+  --pine: #1a7247;
+  --pine-soft: #133624;
+  --gold: #f4f4f5;
+}
+
 *,
 *::before,
 *::after {
@@ -143,13 +161,20 @@ a:focus-visible,
   gap: 14px;
 }
 
-.countdown-inline {
-  margin-left: 8px;
+.wheel-countdown {
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  background: var(--bg-ground);
+  border: 2px solid var(--border-hard);
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   color: var(--ink);
 }
 
-:root[data-theme='holiday'] .countdown-inline {
+:root[data-theme='holiday'] .wheel-countdown {
   color: var(--gold);
 }
 
