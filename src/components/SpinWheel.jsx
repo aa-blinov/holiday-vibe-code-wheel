@@ -40,7 +40,7 @@ export function SpinWheel({
     const parentWidth = canvas.parentElement?.clientWidth || 420;
     const displaySize = Math.max(
       240,
-      Math.min(parentWidth, window.innerWidth - 72, 440)
+      Math.min(parentWidth, window.innerWidth - 72, 430)
     );
 
     if (
@@ -88,38 +88,25 @@ export function SpinWheel({
     const cx = displaySize / 2;
     const cy = displaySize / 2;
     const outerRadius = displaySize / 2 - 8;
-    const wheelRadius = outerRadius - 14;
+    const wheelRadius = outerRadius - 12;
     const n = currentItems.length;
     const sliceAngle = TWO_PI / n;
     const isHoliday = themeRef.current === 'holiday';
+    const hardBorder = isHoliday ? '#e6b84c' : '#111110';
+    const trackFill = isHoliday ? '#08110f' : '#ffffff';
 
     ctx.clearRect(0, 0, displaySize, displaySize);
 
-    // Outer metallic brass / ink bezel
-    const bezelGrad = ctx.createLinearGradient(0, 0, displaySize, displaySize);
-    if (isHoliday) {
-      bezelGrad.addColorStop(0, '#ead08c');
-      bezelGrad.addColorStop(0.35, '#b88b3d');
-      bezelGrad.addColorStop(0.7, '#6d4e19');
-      bezelGrad.addColorStop(1, '#d8b464');
-    } else {
-      bezelGrad.addColorStop(0, '#2a2927');
-      bezelGrad.addColorStop(0.5, '#141413');
-      bezelGrad.addColorStop(1, '#33312e');
-    }
-
+    // Brutalist solid outer ring
     ctx.beginPath();
     ctx.arc(cx, cy, outerRadius, 0, TWO_PI);
-    ctx.fillStyle = bezelGrad;
+    ctx.fillStyle = trackFill;
     ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = hardBorder;
+    ctx.stroke();
 
-    // Recessed inner channel
-    ctx.beginPath();
-    ctx.arc(cx, cy, wheelRadius + 3, 0, TWO_PI);
-    ctx.fillStyle = isHoliday ? '#0a1411' : '#0d0d0c';
-    ctx.fill();
-
-    // Slices
+    // Flat, graphic slices with thick 2px borders
     for (let i = 0; i < n; i++) {
       const startAngle = rotation + i * sliceAngle;
       const endAngle = startAngle + sliceAngle;
@@ -132,10 +119,8 @@ export function SpinWheel({
       ctx.fillStyle = item.color;
       ctx.fill();
 
-      ctx.lineWidth = 1.25;
-      ctx.strokeStyle = isHoliday
-        ? 'rgba(242, 237, 226, 0.22)'
-        : 'rgba(255, 253, 248, 0.55)';
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = hardBorder;
       ctx.stroke();
 
       ctx.save();
@@ -144,74 +129,36 @@ export function SpinWheel({
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#fffdf8';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
-      ctx.shadowBlur = 3;
-      ctx.font = `600 ${displaySize < 360 ? 11.5 : 13}px "IBM Plex Sans", sans-serif`;
-      ctx.fillText(item.shortLabel, wheelRadius - 16, 0);
+      ctx.font = `700 ${displaySize < 360 ? 11.5 : 13}px "IBM Plex Mono", monospace`;
+      ctx.fillText(item.shortLabel, wheelRadius - 14, 0);
       ctx.restore();
     }
 
-    // Subtle directional lighting sheen across the wheel face
-    const sheen = ctx.createRadialGradient(
-      cx - wheelRadius * 0.28,
-      cy - wheelRadius * 0.28,
-      wheelRadius * 0.05,
-      cx,
-      cy,
-      wheelRadius
-    );
-    sheen.addColorStop(0, 'rgba(255, 255, 255, 0.11)');
-    sheen.addColorStop(0.55, 'rgba(255, 255, 255, 0)');
-    sheen.addColorStop(1, 'rgba(0, 0, 0, 0.22)');
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, wheelRadius, 0, TWO_PI);
-    ctx.fillStyle = sheen;
-    ctx.fill();
-
-    // Brass / steel peg pins on the bezel at each slice boundary
-    const pegRadius = outerRadius - 7;
+    // Square-ish / stark industrial pegs at slice boundaries
+    const pegRadius = outerRadius - 6;
     for (let i = 0; i < n; i++) {
       const a = rotation + i * sliceAngle;
       const px = cx + Math.cos(a) * pegRadius;
       const py = cy + Math.sin(a) * pegRadius;
 
       ctx.beginPath();
-      ctx.arc(px, py, 2.6, 0, TWO_PI);
-      ctx.fillStyle = isHoliday ? '#f6e4ad' : '#e6e2d8';
+      ctx.arc(px, py, 2.8, 0, TWO_PI);
+      ctx.fillStyle = hardBorder;
       ctx.fill();
-      ctx.lineWidth = 0.75;
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-      ctx.stroke();
     }
 
-    // Machined center hub
-    const hubGrad = ctx.createLinearGradient(cx - 24, cy - 24, cx + 24, cy + 24);
-    if (isHoliday) {
-      hubGrad.addColorStop(0, '#ead08c');
-      hubGrad.addColorStop(0.5, '#b88b3d');
-      hubGrad.addColorStop(1, '#6d4e19');
-    } else {
-      hubGrad.addColorStop(0, '#fffdf8');
-      hubGrad.addColorStop(1, '#d8d3c8');
-    }
-
+    // Chunky brutalist center hub
     ctx.beginPath();
-    ctx.arc(cx, cy, 24, 0, TWO_PI);
-    ctx.fillStyle = hubGrad;
+    ctx.arc(cx, cy, 22, 0, TWO_PI);
+    ctx.fillStyle = trackFill;
     ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = isHoliday ? '#0a1411' : '#141413';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = hardBorder;
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.arc(cx, cy, 15, 0, TWO_PI);
-    ctx.fillStyle = isHoliday ? '#142420' : '#141413';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, 4.5, 0, TWO_PI);
-    ctx.fillStyle = isHoliday ? '#ead08c' : '#fffdf8';
+    ctx.arc(cx, cy, 8, 0, TWO_PI);
+    ctx.fillStyle = isHoliday ? '#d9383a' : '#d62828';
     ctx.fill();
   };
 
