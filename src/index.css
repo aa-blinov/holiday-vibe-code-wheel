@@ -54,6 +54,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--gold, var(--ink));
+  outline-offset: 2px;
+}
+
 .snowfall-canvas {
   position: fixed;
   inset: 0;
