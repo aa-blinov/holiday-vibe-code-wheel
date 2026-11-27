@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const CLOSE_DURATION_MS = 170;
 
@@ -6,6 +6,19 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
   const [copied, setCopied] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const closeTimerRef = useRef(null);
+
+  const fullPromptText = useMemo(() => {
+    if (!challenge) return '';
+    return [
+      `Project: ${challenge.title}`,
+      `Category: ${challenge.category} (${challenge.timeEstimate})`,
+      '',
+      `Task: ${challenge.prompt}`,
+      `Constraint: ${challenge.vibeRule}`,
+      '',
+      'Keep the scope small enough to ship in one sitting.',
+    ].join('\n');
+  }, [challenge]);
 
   useEffect(() => {
     setIsClosing(false);
@@ -38,9 +51,8 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
   if (!challenge) return null;
 
   const handleCopy = async () => {
-    const text = `${challenge.title} (${challenge.category}, ${challenge.timeEstimate})\n\nBrief: ${challenge.prompt}\nConstraint: ${challenge.vibeRule}`;
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(fullPromptText);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -74,6 +86,17 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
         <div className="constraint-box">
           <span className="constraint-label">Build constraint</span>
           <p className="constraint-text">{challenge.vibeRule}</p>
+        </div>
+
+        <div className="prompt-preview-wrap">
+          <span className="constraint-label">Full prompt to copy</span>
+          <pre
+            className="prompt-preview-box"
+            tabIndex={0}
+            aria-label="Full prompt text"
+          >
+            {fullPromptText}
+          </pre>
         </div>
 
         <div className="modal-actions">
