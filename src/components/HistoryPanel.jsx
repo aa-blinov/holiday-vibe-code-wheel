@@ -35,6 +35,7 @@ export function HistoryPanel({ history, onSelectEntry, onToggleBuilt, onClearHis
                   {entry.isPractice && (
                     <span className="practice-tag">Practice</span>
                   )}
+                  <span className="history-open-cue">Open prompt</span>
                 </span>
                 <span className="history-title">{entry.title}</span>
               </button>

@@ -469,7 +469,19 @@ body {
   border-radius: var(--r-sm);
   background: var(--bg-ground);
   border: 1px solid var(--hairline);
+  font-family: inherit;
+  color: inherit;
   font-variant-numeric: tabular-nums;
+}
+
+.advent-cell.is-clickable {
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.advent-cell.is-clickable:hover {
+  transform: translateY(-1px);
+  border-color: var(--gold, var(--ink));
 }
 
 .advent-cell.unlocked {
@@ -545,6 +557,24 @@ body {
   border-radius: var(--r-md);
   background: var(--bg-ground);
   border: 1px solid var(--hairline);
+  transition: border-color 0.12s ease;
+}
+
+.history-item:hover {
+  border-color: var(--hairline-strong);
+}
+
+.history-open-cue {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--ink-muted);
+  opacity: 0.75;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+
+.history-main:hover .history-open-cue {
+  opacity: 1;
+  color: var(--ink);
 }
 
 .history-main {

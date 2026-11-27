@@ -228,7 +228,13 @@ export default function App() {
         </section>
 
         <div className="side-column">
-          <AdventStrip history={state.history} />
+          <AdventStrip
+            history={state.history}
+            onSelectEntry={(entry) => {
+              setPreviewChallenge(null);
+              setActiveEntryId(entry.id);
+            }}
+          />
           <HistoryPanel
             history={state.history}
             onSelectEntry={(entry) => {

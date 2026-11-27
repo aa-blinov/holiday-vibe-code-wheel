@@ -1,4 +1,4 @@
-export function AdventStrip({ history }) {
+export function AdventStrip({ history, onSelectEntry }) {
   const officialSpins = history.filter((item) => !item.isPractice);
   const totalSlots = 25;
   const unlockedCount = Math.min(officialSpins.length, totalSlots);
@@ -10,7 +10,7 @@ export function AdventStrip({ history }) {
         <div>
           <h2 className="panel-title">Advent streak</h2>
           <p className="panel-subtitle">
-            One official spin per day across 25 winter builds.
+            One official spin per day. Click an unlocked day to open its prompt.
           </p>
         </div>
         <div className="stats-group">
@@ -26,21 +26,26 @@ export function AdventStrip({ history }) {
           const isUnlocked = Boolean(spin);
           const isBuilt = Boolean(spin?.built);
 
+          if (!isUnlocked) {
+            return (
+              <div key={dayNum} className="advent-cell">
+                <span className="advent-day">{dayNum}</span>
+                <span className="advent-status" />
+              </div>
+            );
+          }
+
           return (
-            <div
+            <button
               key={dayNum}
-              className={`advent-cell ${isUnlocked ? 'unlocked' : ''} ${isBuilt ? 'built' : ''}`}
-              title={
-                spin
-                  ? `Day ${dayNum} (${spin.date}): ${spin.title}`
-                  : `Day ${dayNum}: Locked`
-              }
+              type="button"
+              className={`advent-cell is-clickable unlocked ${isBuilt ? 'built' : ''}`}
+              onClick={() => onSelectEntry(spin)}
+              title={`Day ${dayNum} (${spin.date}): ${spin.title}`}
             >
               <span className="advent-day">{dayNum}</span>
-              <span className="advent-status">
-                {isBuilt ? 'Built' : isUnlocked ? 'Open' : ''}
-              </span>
-            </div>
+              <span className="advent-status">{isBuilt ? 'Built' : 'Open'}</span>
+            </button>
           );
         })}
       </div>
