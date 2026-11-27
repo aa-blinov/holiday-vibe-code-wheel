@@ -6,9 +6,9 @@ export const DECKS = [
   { id: 'mix', label: 'All Ideas' },
   { id: 'saas', label: 'Micro-SaaS' },
   { id: 'devtools', label: 'Dev Tools' },
-  { id: 'apps', label: 'Creative Apps' },
   { id: 'games', label: 'Games' },
-  { id: 'holiday', label: 'Holiday & Play' },
+  { id: 'apps', label: 'Creative & Audio' },
+  { id: 'holiday', label: 'Holiday' },
 ];
 
 const SLICE_PALETTE = [
@@ -976,8 +976,9 @@ const TWISTS = [
 const CATEGORY_LABELS = {
   saas: 'Micro-SaaS',
   devtools: 'Dev Tool',
-  apps: 'Creative App',
-  holiday: 'Holiday & Play',
+  apps: 'Creative & Audio',
+  games: 'Game',
+  holiday: 'Holiday',
 };
 
 function buildIdea(deckKey, baseIdx, twistIdx) {
@@ -985,13 +986,15 @@ function buildIdea(deckKey, baseIdx, twistIdx) {
   const base = bases[baseIdx];
   const twist = TWISTS[twistIdx];
   const id = `${deckKey}-${baseIdx}-${twistIdx}`;
+  const isGame = isGameIdea(base);
+  const badgeKey = isGame ? 'games' : deckKey;
 
   return {
     id,
-    deck: deckKey,
+    deck: badgeKey,
     shortLabel: base.short,
     title: `${base.title} (${twist.tag})`,
-    category: CATEGORY_LABELS[deckKey],
+    category: CATEGORY_LABELS[badgeKey],
     prompt: `${base.desc}, ${twist.addDesc}`,
     vibeRule: twist.rule,
   };
@@ -1069,6 +1072,9 @@ export function drawWheelIdeas(deckId, count = 12) {
     if (deckId === 'games' && !isGameIdea(base)) {
       continue;
     }
+    if (deckId === 'apps' && isGameIdea(base)) {
+      continue;
+    }
 
     const compatibleTwists = TWISTS_BY_KIND[base.kind];
     const twistIdx =
@@ -1103,6 +1109,9 @@ export function sampleCatalogIdeas(deckId, count = 18, searchQuery = '') {
       const bases = BASE_IDEAS[dk];
       for (let b = 0; b < bases.length; b++) {
         if (deckId === 'games' && !isGameIdea(bases[b])) {
+          continue;
+        }
+        if (deckId === 'apps' && isGameIdea(bases[b])) {
           continue;
         }
         const compatibleTwists = TWISTS_BY_KIND[bases[b].kind];

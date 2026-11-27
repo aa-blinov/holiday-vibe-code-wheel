@@ -14,7 +14,7 @@ export function OnboardingBanner({ onDismiss }) {
           <div>
             <strong>Pick a deck</strong>
             <p>
-              Filter by Micro-SaaS, Dev Tools, Creative Apps, or Holiday. Every spin deals 12 fresh ideas.
+              Filter by Micro-SaaS, Dev Tools, Games, Creative, or Holiday. Every spin deals 12 fresh ideas.
             </p>
           </div>
         </div>

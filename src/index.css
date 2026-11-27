@@ -946,6 +946,10 @@ a:focus-visible,
   box-shadow: 5px 5px 0 #b35f14;
 }
 
+.catalog-card.deck-games:hover {
+  box-shadow: 5px 5px 0 #9c3d1e;
+}
+
 .catalog-card.deck-holiday:hover {
   box-shadow: 5px 5px 0 #238559;
 }
@@ -979,6 +983,10 @@ a:focus-visible,
 
 .deck-badge-apps {
   background: #9c5210;
+}
+
+.deck-badge-games {
+  background: #9c3d1e;
 }
 
 .deck-badge-holiday {
