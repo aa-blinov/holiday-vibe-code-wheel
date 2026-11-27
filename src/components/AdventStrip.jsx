@@ -1,5 +1,8 @@
 export function AdventStrip({ history, onSelectEntry }) {
-  const officialSpins = history.filter((item) => !item.isPractice);
+  const officialSpins = history
+    .filter((item) => !item.isPractice)
+    .slice()
+    .reverse();
   const totalSlots = 25;
   const unlockedCount = Math.min(officialSpins.length, totalSlots);
   const builtCount = officialSpins.filter((item) => item.built).length;

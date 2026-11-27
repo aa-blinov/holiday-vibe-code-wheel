@@ -157,6 +157,12 @@ export default function App() {
   const handleCloseModal = () => {
     setActiveEntryId(null);
     setPreviewChallenge(null);
+    if (window.location.search.includes('idea=')) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('idea');
+      const next = url.pathname + (url.search ? url.search : '') + url.hash;
+      window.history.replaceState(null, '', next);
+    }
   };
 
   return (
