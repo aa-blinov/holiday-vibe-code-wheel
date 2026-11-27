@@ -242,7 +242,7 @@ export function SpinWheel({
         lastSliceIdx = currentSliceIdx;
         flickPointer();
         if (soundRef.current) {
-          playTick();
+          playTick(progress);
         }
       }
 
