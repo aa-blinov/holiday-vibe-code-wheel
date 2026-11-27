@@ -1,16 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const CLOSE_DURATION_MS = 170;
 
 export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
   const [copied, setCopied] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const closeTimerRef = useRef(null);
+
+  useEffect(() => {
+    setIsClosing(false);
+    setCopied(false);
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, [challenge]);
+
+  const requestClose = () => {
+    if (isClosing) return;
+    setIsClosing(true);
+    closeTimerRef.current = setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, CLOSE_DURATION_MS);
+  };
 
   useEffect(() => {
     if (!challenge) return;
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') requestClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [challenge, onClose]);
+  }, [challenge, isClosing]);
 
   if (!challenge) return null;
 
@@ -26,9 +49,12 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+      className={`modal-backdrop ${isClosing ? 'is-closing' : ''}`}
+      onClick={requestClose}
+    >
       <div
-        className="modal-card"
+        className={`modal-card ${isClosing ? 'is-closing' : ''}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -69,7 +95,7 @@ export function ChallengeModal({ entry, challenge, onClose, onToggleBuilt }) {
         <button
           type="button"
           className="modal-close"
-          onClick={onClose}
+          onClick={requestClose}
           aria-label="Close dialog"
         >
           ×
