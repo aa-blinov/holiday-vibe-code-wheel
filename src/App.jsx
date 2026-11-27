@@ -16,6 +16,7 @@ import { ChallengeModal } from './components/ChallengeModal';
 import { AdventStrip } from './components/AdventStrip';
 import { HistoryPanel } from './components/HistoryPanel';
 import { CatalogPanel } from './components/CatalogPanel';
+import { Snowfall } from './components/Snowfall';
 
 function getNewYearCountdown() {
   const now = new Date();
@@ -138,6 +139,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      {state.theme === 'holiday' && <Snowfall />}
       <header className="topbar">
         <div className="topbar-left">
           <h1 className="brand-title">Holiday Vibe-Code Wheel</h1>
