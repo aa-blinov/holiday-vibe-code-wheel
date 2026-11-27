@@ -17,16 +17,35 @@ import { AdventStrip } from './components/AdventStrip';
 import { HistoryPanel } from './components/HistoryPanel';
 import { CatalogPanel } from './components/CatalogPanel';
 
+function getNewYearCountdown() {
+  const now = new Date();
+  const nextYear = now.getFullYear() + 1;
+  const target = new Date(nextYear, 0, 1, 0, 0, 0);
+  const diffMs = Math.max(0, target.getTime() - now.getTime());
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+  return `${days}d ${hours}h to ${nextYear}`;
+}
+
 export default function App() {
   const [state, setState] = useState(() => loadState());
   const [activeDeck, setActiveDeck] = useState('mix');
   const [wheelItems, setWheelItems] = useState(() => drawWheelIdeas('mix', 12));
   const [activeEntryId, setActiveEntryId] = useState(null);
   const [previewChallenge, setPreviewChallenge] = useState(null);
+  const [countdown, setCountdown] = useState(() => getNewYearCountdown());
 
   useEffect(() => {
     saveState(state);
+    document.documentElement.dataset.theme = state.theme;
   }, [state]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCountdown(getNewYearCountdown());
+    }, 60000);
+    return () => clearInterval(id);
+  }, []);
 
   const handleSelectDeck = (deckId) => {
     setActiveDeck(deckId);
@@ -97,6 +116,13 @@ export default function App() {
     }));
   };
 
+  const handleToggleTheme = () => {
+    setState((prev) => ({
+      ...prev,
+      theme: prev.theme === 'holiday' ? 'paper' : 'holiday',
+    }));
+  };
+
   const handleClearHistory = () => {
     setState((prev) => ({
       ...prev,
@@ -121,6 +147,16 @@ export default function App() {
         </div>
 
         <div className="topbar-controls">
+          <span className="countdown-chip">{countdown}</span>
+
+          <button
+            type="button"
+            className="btn-ghost"
+            onClick={handleToggleTheme}
+          >
+            {state.theme === 'holiday' ? 'Theme: New Year' : 'Theme: Paper'}
+          </button>
+
           <label className="mode-toggle">
             <input
               type="checkbox"
@@ -178,6 +214,7 @@ export default function App() {
           <SpinWheel
             items={wheelItems}
             disabled={wheelDisabled}
+            theme={state.theme}
             onBeforeSpin={handleBeforeSpin}
             onSpinComplete={handleSpinComplete}
           />

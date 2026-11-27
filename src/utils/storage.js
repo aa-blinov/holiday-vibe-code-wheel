@@ -15,17 +15,20 @@ export function loadState() {
       return {
         history: [],
         practiceMode: false,
+        theme: 'holiday',
       };
     }
     const parsed = JSON.parse(raw);
     return {
       history: Array.isArray(parsed.history) ? parsed.history : [],
       practiceMode: Boolean(parsed.practiceMode),
+      theme: parsed.theme === 'paper' ? 'paper' : 'holiday',
     };
   } catch {
     return {
       history: [],
       practiceMode: false,
+      theme: 'holiday',
     };
   }
 }

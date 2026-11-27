@@ -3,10 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 const TWO_PI = Math.PI * 2;
 const POINTER_ANGLE = (3 * Math.PI) / 2;
 
-export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
+export function SpinWheel({ items, disabled, theme = 'holiday', onBeforeSpin, onSpinComplete }) {
   const canvasRef = useRef(null);
   const rotationRef = useRef(0);
   const activeItemsRef = useRef(items);
+  const themeRef = useRef(theme);
   const sizeRef = useRef({ displaySize: 0, dpr: 1 });
   const [isSpinning, setIsSpinning] = useState(false);
 
@@ -36,12 +37,13 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
   };
 
   useEffect(() => {
+    themeRef.current = theme;
     if (!isSpinning) {
       activeItemsRef.current = items;
       syncCanvasSize();
       drawWheel(rotationRef.current, items);
     }
-  }, [items, isSpinning]);
+  }, [items, isSpinning, theme]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,14 +71,21 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
     const n = currentItems.length;
     const sliceAngle = TWO_PI / n;
 
+    const isHoliday = themeRef.current === 'holiday';
+    const rimFill = isHoliday ? '#1c302b' : '#fffdf8';
+    const rimStroke = isHoliday ? '#d9a441' : '#141413';
+    const sliceStroke = isHoliday ? '#0e1b18' : '#fffdf8';
+    const hubFill = isHoliday ? '#142420' : '#fffdf8';
+    const hubStroke = isHoliday ? '#d9a441' : '#141413';
+
     ctx.clearRect(0, 0, displaySize, displaySize);
 
     ctx.beginPath();
     ctx.arc(cx, cy, outerRadius, 0, TWO_PI);
-    ctx.fillStyle = '#fffdf8';
+    ctx.fillStyle = rimFill;
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = '#141413';
+    ctx.strokeStyle = rimStroke;
     ctx.stroke();
 
     for (let i = 0; i < n; i++) {
@@ -92,7 +101,7 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
       ctx.fill();
 
       ctx.lineWidth = 1.5;
-      ctx.strokeStyle = '#fffdf8';
+      ctx.strokeStyle = sliceStroke;
       ctx.stroke();
 
       ctx.save();
@@ -108,15 +117,15 @@ export function SpinWheel({ items, disabled, onBeforeSpin, onSpinComplete }) {
 
     ctx.beginPath();
     ctx.arc(cx, cy, 22, 0, TWO_PI);
-    ctx.fillStyle = '#fffdf8';
+    ctx.fillStyle = hubFill;
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = '#141413';
+    ctx.strokeStyle = hubStroke;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(cx, cy, 6, 0, TWO_PI);
-    ctx.fillStyle = '#141413';
+    ctx.fillStyle = hubStroke;
     ctx.fill();
   };
 
