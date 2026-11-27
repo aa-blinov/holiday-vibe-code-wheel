@@ -259,6 +259,19 @@ export default function App() {
           ))}
         </div>
 
+        <select
+          className="deck-select"
+          aria-label="Category deck"
+          value={activeDeck}
+          onChange={(e) => handleSelectDeck(e.target.value)}
+        >
+          {DECKS.map((deck) => (
+            <option key={deck.id} value={deck.id}>
+              {deck.label}
+            </option>
+          ))}
+        </select>
+
         <button
           type="button"
           className="topbar-text-btn"
