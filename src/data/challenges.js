@@ -7,10 +7,10 @@ export const DECKS = [
 ];
 
 const SLICE_PALETTE = [
-  '#9e2a2b',
-  '#1b4332',
-  '#1d3557',
-  '#b5651d',
+  '#a62628',
+  '#1b4d38',
+  '#1d3b63',
+  '#9c5210',
   '#2b2d42',
   '#0f4c5c',
 ];

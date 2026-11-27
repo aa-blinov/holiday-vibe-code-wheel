@@ -52,11 +52,13 @@ export function CatalogPanel({ activeDeck, onSelectChallenge }) {
             <button
               key={item.id}
               type="button"
-              className="catalog-card"
+              className={`catalog-card deck-${item.deck}`}
               onClick={() => onSelectChallenge(item)}
             >
               <div className="catalog-card-top">
-                <span className="catalog-cat">{item.category}</span>
+                <span className={`catalog-cat deck-badge-${item.deck}`}>
+                  {item.category}
+                </span>
                 <span className="catalog-time">{item.timeEstimate}</span>
               </div>
               <h3 className="catalog-card-title">{item.title}</h3>

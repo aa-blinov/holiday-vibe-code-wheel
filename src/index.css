@@ -2,14 +2,17 @@
   --bg-ground: #f4f1ea;
   --bg-surface: #ffffff;
   --bg-subtle: #e7e2d6;
+  --bg-advent: #edf7f1;
+  --bg-log: #eef2f8;
+  --bg-onboard: #fef6d8;
   --ink: #111110;
-  --ink-muted: #4a4843;
+  --ink-muted: #45433e;
   --border-hard: #111110;
   --shadow-hard: #111110;
-  --accent: #d62828;
-  --accent-hover: #b81f1f;
-  --pine: #1b7a46;
-  --pine-soft: #d8f3e3;
+  --accent: #c92424;
+  --accent-hover: #a81b1b;
+  --pine: #166a3c;
+  --pine-soft: #d2f1df;
   --font-display: 'Bricolage Grotesque', 'IBM Plex Sans', system-ui, sans-serif;
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
@@ -22,14 +25,17 @@
   --bg-ground: #0b1613;
   --bg-surface: #13241f;
   --bg-subtle: #1b332c;
+  --bg-advent: #122921;
+  --bg-log: #13202c;
+  --bg-onboard: #262011;
   --ink: #f5efe0;
-  --ink-muted: #adc0b7;
+  --ink-muted: #b6c7bf;
   --border-hard: #e6b84c;
   --shadow-hard: #040907;
-  --accent: #d9383a;
-  --accent-hover: #bc292b;
-  --pine: #238559;
-  --pine-soft: #143d2b;
+  --accent: #c92a2c;
+  --accent-hover: #ad2123;
+  --pine: #1b6e49;
+  --pine-soft: #133b29;
   --gold: #e6b84c;
 }
 
@@ -279,7 +285,7 @@ a:focus-visible,
 /* Onboarding */
 .onboarding-banner {
   padding: 20px 22px;
-  background: var(--bg-surface);
+  background: var(--bg-onboard);
   border: 2px solid var(--border-hard);
   box-shadow: 5px 5px 0 var(--shadow-hard);
   margin-bottom: 24px;
@@ -537,6 +543,14 @@ a:focus-visible,
   background: var(--bg-surface);
   border: 2px solid var(--border-hard);
   box-shadow: 6px 6px 0 var(--shadow-hard);
+}
+
+.side-column > .panel:first-child {
+  background: var(--bg-advent);
+}
+
+.side-column > .panel:last-child {
+  background: var(--bg-log);
 }
 
 .panel-header {
@@ -859,24 +873,55 @@ a:focus-visible,
   box-shadow: 5px 5px 0 var(--shadow-hard);
 }
 
+.catalog-card.deck-saas:hover {
+  box-shadow: 5px 5px 0 #c92a2c;
+}
+
+.catalog-card.deck-devtools:hover {
+  box-shadow: 5px 5px 0 #2e66a8;
+}
+
+.catalog-card.deck-apps:hover {
+  box-shadow: 5px 5px 0 #b35f14;
+}
+
+.catalog-card.deck-holiday:hover {
+  box-shadow: 5px 5px 0 #238559;
+}
+
 .catalog-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-size: 13px;
 }
 
 .catalog-cat {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: var(--accent);
+  font-size: 12px;
+  padding: 3px 8px;
+  border: 1.5px solid var(--border-hard);
+  color: #fffdf8;
+  background: var(--accent);
 }
 
-:root[data-theme='holiday'] .catalog-cat,
-:root[data-theme='holiday'] .meta-label {
-  color: var(--gold);
+.deck-badge-saas {
+  background: #a62628;
+}
+
+.deck-badge-devtools {
+  background: #1d3b63;
+}
+
+.deck-badge-apps {
+  background: #9c5210;
+}
+
+.deck-badge-holiday {
+  background: #1b4d38;
 }
 
 .catalog-time {
@@ -996,6 +1041,10 @@ a:focus-visible,
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--accent);
+}
+
+:root[data-theme='holiday'] .meta-label {
+  color: var(--gold);
 }
 
 .meta-mono {
